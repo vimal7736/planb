@@ -173,8 +173,8 @@
 /* --- CUSTOM MOBILE BOTTOM NAV CSS --- */
 .mobile-nav-wrap {
   --round: 9999px; /* Fully rounded pill */
-  --p-x: 8px;
-  --p-y: 6px;
+  --p-x: 4px;
+  --p-y: 4px;
   display: flex;
   align-items: center;
   padding: var(--p-y) var(--p-x);
@@ -204,7 +204,7 @@
   font-weight: 500;
   color: var(--text-main);
   background: transparent;
-  padding: 12px 0;
+  padding: 8px 0;
   flex: 1;
   text-decoration: none;
   -webkit-user-select: none;

@@ -24,7 +24,7 @@ export default function MobileNav() {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden w-[95%] max-w-[450px] flex items-center gap-3">
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden w-fit max-w-[90%] flex items-center gap-2">
       <div className="mobile-nav-wrap w-full flex items-center justify-between">
         <input
           type="radio"
@@ -35,7 +35,7 @@ export default function MobileNav() {
           onChange={() => setActiveTab("rd-1")}
         />
         <label htmlFor="rd-1" className="mobile-nav-label" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })} aria-label="Home">
-          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         </label>
 
         <input
@@ -56,7 +56,7 @@ export default function MobileNav() {
           }} 
           aria-label="Portfolio"
         >
-          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         </label>
 
         <input
@@ -68,13 +68,13 @@ export default function MobileNav() {
           onChange={() => setActiveTab("rd-3")}
         />
         <label htmlFor="rd-3" className="mobile-nav-label" onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })} aria-label="Book">
-          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
         </label>
 
         <div className="mobile-nav-slidebar"></div>
       </div>
 
-      <div className="theme-switch shrink-0 bg-background-alt rounded-full shadow-lg border border-accent-secondary" style={{ fontSize: '1.2rem', padding: '6px' }}>
+      <div className="theme-switch shrink-0 bg-background-alt rounded-full shadow-lg border border-accent-secondary" style={{ fontSize: '1rem', padding: '4px' }}>
           <input 
             type="checkbox" 
             id="mobile-theme-checkbox" 

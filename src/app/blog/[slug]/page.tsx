@@ -4,6 +4,7 @@ import SocialsCard from "@/components/SocialsCard";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 const BLOG_POSTS = {
   "tattoo-aftercare": {
@@ -191,6 +192,25 @@ const BLOG_POSTS = {
     )
   }
 };
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const post = BLOG_POSTS[resolvedParams.slug as keyof typeof BLOG_POSTS];
+  
+  if (!post) {
+    return { title: 'Post Not Found | Plan B' };
+  }
+  
+  return {
+    title: `${post.title} | Plan B Tattoo Studio`,
+    description: post.desc,
+    openGraph: {
+      title: post.title,
+      description: post.desc,
+      images: [{ url: post.image }],
+    }
+  };
+}
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
