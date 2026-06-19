@@ -32,8 +32,8 @@ export default function MobileNav() {
           checked={activeTab === "rd-1"}
           onChange={() => setActiveTab("rd-1")}
         />
-        <label htmlFor="rd-1" className="mobile-nav-label" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })}>
-          <span>Home</span>
+        <label htmlFor="rd-1" className="mobile-nav-label" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })} aria-label="Home">
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         </label>
 
         <input
@@ -44,8 +44,8 @@ export default function MobileNav() {
           checked={activeTab === "rd-2"}
           onChange={() => setActiveTab("rd-2")}
         />
-        <label htmlFor="rd-2" className="mobile-nav-label" onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}>
-          <span>Portfolio</span>
+        <label htmlFor="rd-2" className="mobile-nav-label" onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })} aria-label="Portfolio">
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         </label>
 
         <input
@@ -56,15 +56,14 @@ export default function MobileNav() {
           checked={activeTab === "rd-3"}
           onChange={() => setActiveTab("rd-3")}
         />
-        <label htmlFor="rd-3" className="mobile-nav-label" onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })}>
-          <span>Book</span>
+        <label htmlFor="rd-3" className="mobile-nav-label" onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })} aria-label="Book">
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
         </label>
 
         <div className="mobile-nav-slidebar"></div>
+      </div>
 
-        <div className="w-[1px] h-6 bg-accent-secondary/50 mx-1 z-10 hidden sm:block"></div>
-
-        <div className="theme-switch shrink-0 z-10 pl-1 pr-2" style={{ fontSize: '1.2rem' }}>
+      <div className="theme-switch shrink-0 bg-background-alt rounded-full shadow-lg border border-accent-secondary" style={{ fontSize: '1.2rem', padding: '6px' }}>
           <input 
             type="checkbox" 
             id="mobile-theme-checkbox" 
@@ -87,6 +86,5 @@ export default function MobileNav() {
           </label>
         </div>
       </div>
-    </div>
   );
 }

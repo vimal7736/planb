@@ -5,10 +5,9 @@ import { Search, Filter, Eye, CheckCircle, XCircle } from "lucide-react";
 
 // Mock Data for Phase 2 UI
 const MOCK_BOOKINGS = [
-  { id: "1", name: "Jane Doe", email: "jane@example.com", date: "Oct 15", placement: "Forearm", status: "pending" },
-  { id: "2", name: "Alex Smith", email: "alex@example.com", date: "Oct 18", placement: "Ribs", status: "approved" },
-  { id: "3", name: "Sam Wilson", email: "sam@example.com", date: "Nov 2", placement: "Ankle", status: "rejected" },
-  { id: "4", name: "Taylor Swift", email: "taylor@example.com", date: "Nov 10", placement: "Collarbone", status: "pending" },
+  { id: "1", name: "Sanjay", email: "sanjay@email.com", date: "Oct 15", placement: "Forearm", status: "pending" },
+  { id: "2", name: "Munna", email: "munna@email.com", date: "Oct 18", placement: "Ribs", status: "approved" },
+  { id: "3", name: "Vimal", email: "vimal@email.com", date: "Nov 2", placement: "Ankle", status: "rejected" },
 ];
 
 export default function AdminDashboard() {
