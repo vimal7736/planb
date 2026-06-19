@@ -36,7 +36,7 @@ export default function SocialsCard() {
       <div className={styles.logo}>Socials</div>
 
       {/* Instagram / Facebook / Twitter SVG icons adapted from user request */}
-      <a href="#" aria-label="Instagram">
+      <a href="https://www.instagram.com/planb_tattoo_studio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
         <div className={`${styles.box} ${styles.box1}`}>
           <span className={styles.icon}>
             <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" className={styles.svg}>
@@ -46,7 +46,7 @@ export default function SocialsCard() {
         </div>
       </a>
 
-      <a href="##" aria-label="Twitter">
+      <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
         <div className={`${styles.box} ${styles.box2}`}>
           <span className={styles.icon}>
             <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" className={styles.svg}>
@@ -56,7 +56,7 @@ export default function SocialsCard() {
         </div>
       </a>
 
-      <a href="###" aria-label="Discord/Other">
+      <a href="https://discord.com" target="_blank" rel="noopener noreferrer" aria-label="Discord">
         <div className={`${styles.box} ${styles.box3}`}>
           <span className={styles.icon}>
             <svg viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg" className={styles.svg}>

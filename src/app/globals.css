@@ -37,10 +37,14 @@
     --accent-secondary: #A3A3A340;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    @apply antialiased scroll-smooth transition-colors duration-500;
+    @apply antialiased transition-colors duration-500;
   }
 }
 
