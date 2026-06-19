@@ -24,6 +24,7 @@
     --accent-primary-dark: #3A4A20;
     --accent-primary-light: #6E8A3D;
     --accent-secondary: #556B2F40;
+    --color-scheme: light;
   }
 
   /* Dark Minimal (Matte Black & Soft White) */
@@ -35,6 +36,7 @@
     --accent-primary-dark: #737373;
     --accent-primary-light: #D4D4D4;
     --accent-secondary: #A3A3A340;
+    --color-scheme: dark;
   }
 
   html {

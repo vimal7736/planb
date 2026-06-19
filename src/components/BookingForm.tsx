@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Calendar, Clock, MapPin, Mail, Phone } from "lucide-react";
+import CustomDateTimePicker from "./CustomDateTimePicker";
 
 export default function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,7 +49,14 @@ export default function BookingForm() {
                     <svg className="w-6 h-6 shrink-0 mt-1 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <div>
                       <h4 className="font-medium opacity-70 text-sm uppercase tracking-wider mb-1">Studio Address</h4>
-                      <p className="leading-relaxed">Ground floor, Address Mall, 673001, Oyitty Rd, near City Stand, Palayam, Kozhikode, Kerala 673001</p>
+                      <a 
+                        href="https://www.google.com/maps/search/?api=1&query=Address+Mall,+Oyitty+Rd,+Palayam,+Kozhikode,+Kerala+673001" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="leading-relaxed hover:underline hover:text-white transition-colors block"
+                      >
+                        Ground floor, Address Mall, 673001, Oyitty Rd, near City Stand, Palayam, Kozhikode, Kerala 673001
+                      </a>
                     </div>
                   </div>
 
@@ -122,15 +131,9 @@ export default function BookingForm() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="date" className="text-sm font-medium">Preferred Month/Date</label>
-                    <input
-                      type="text"
-                      id="date"
-                      required
-                      className="w-full px-4 py-3 bg-transparent border-2 border-primary/20 rounded-xl focus:outline-none focus:border-primary transition-colors resize-none"
-                      placeholder="October"
-                    />
-                  </div>
+                  <label htmlFor="date" className="text-sm font-medium">Preferred Date & Time</label>
+                  <CustomDateTimePicker id="date" required />
+                </div>
                 </div>
 
                 <div className="space-y-2">

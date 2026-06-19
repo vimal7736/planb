@@ -39,7 +39,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${outfit.variable} ${exo.variable} ${stardos.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-noise">
+      <body className="min-h-full flex flex-col font-sans bg-noise" suppressHydrationWarning>
         <LoaderProvider>
           {children}
         </LoaderProvider>
