@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useLoader } from "./LoaderProvider";
 
 export default function Navbar() {
   const [theme, setTheme] = useState("olive");
+  const { triggerLoader } = useLoader();
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -44,7 +46,18 @@ export default function Navbar() {
             </label>
           </div>
 
-          <Link href="#portfolio" className="text-foreground hover:text-primary transition-colors">Portfolio</Link>
+          <a 
+            href="#portfolio" 
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              triggerLoader(() => {
+                document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+              });
+            }}
+          >
+            Portfolio
+          </a>
           <Link href="#about" className="text-foreground hover:text-primary transition-colors">About</Link>
           <Link 
             href="#booking" 

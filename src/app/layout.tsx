@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Outfit, Exo, Stardos_Stencil } from "next/font/google";
 import "./globals.css";
+import { LoaderProvider } from "@/components/LoaderProvider";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -38,7 +39,11 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${outfit.variable} ${exo.variable} ${stardos.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-noise">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-noise">
+        <LoaderProvider>
+          {children}
+        </LoaderProvider>
+      </body>
     </html>
   );
 }

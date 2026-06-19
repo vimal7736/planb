@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useLoader } from "./LoaderProvider";
 
 export default function MobileNav() {
   const [activeTab, setActiveTab] = useState("rd-1");
   const [theme, setTheme] = useState("olive");
+  const { triggerLoader } = useLoader();
 
   useEffect(() => {
     // Sync with existing theme if possible, or just set it
@@ -44,7 +46,16 @@ export default function MobileNav() {
           checked={activeTab === "rd-2"}
           onChange={() => setActiveTab("rd-2")}
         />
-        <label htmlFor="rd-2" className="mobile-nav-label" onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })} aria-label="Portfolio">
+        <label 
+          htmlFor="rd-2" 
+          className="mobile-nav-label" 
+          onClick={(e) => {
+            triggerLoader(() => {
+              document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
+            });
+          }} 
+          aria-label="Portfolio"
+        >
           <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         </label>
 

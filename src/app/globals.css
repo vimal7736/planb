@@ -75,6 +75,35 @@
   direction: rtl;
 }
 
+@layer utilities {
+  .animate-tattoo-buzz {
+    animation: tattoo-buzz 0.05s infinite;
+  }
+  .animate-needle-poke {
+    animation: needle-poke 0.05s infinite;
+  }
+  .animate-draw-line {
+    animation: draw-line 1.5s ease-out forwards;
+  }
+}
+
+@keyframes tattoo-buzz {
+  0% { transform: translate(0px, 0px) rotate(15deg); }
+  50% { transform: translate(1px, 1px) rotate(15.5deg); }
+  100% { transform: translate(-1px, -1px) rotate(14.5deg); }
+}
+
+@keyframes needle-poke {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes draw-line {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
+}
+
 .theme-switch input[type="checkbox"] {
   display: none;
 }

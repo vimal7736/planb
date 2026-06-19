@@ -10,6 +10,12 @@ const HERO_IMAGES = [
   "/tattooos/eugene-chystiakov-udEtTnAcSD8-unsplash.jpg",
   "/tattooos/jj-jordan-eenumTwM6Ec-unsplash.jpg",
   "/tattooos/stories-ink-tattoo-care-kZuIc5Jtmfc-unsplash.jpg",
+  "/tattooos/tattoo-1.png",
+  "/tattooos/tattoo-2.png",
+  "/tattooos/tattoo-3.png",
+  "/tattooos/tattoo-4.png",
+  "/tattooos/tattoo-5.png",
+  "/tattooos/tattoo-6.png",
 ];
 
 export default function Hero() {
