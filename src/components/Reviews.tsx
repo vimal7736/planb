@@ -4,7 +4,7 @@ const REVIEWS = [
   {
     name: "Jessica R.",
     date: "2 months ago",
-    text: "Sanjay is an absolute master of fine line. The details on my floral piece are stunning and it healed perfectly.",
+    text: "The artists at Plan B are absolute masters of fine line. The details on my floral piece are stunning and it healed perfectly.",
     rating: 5,
   },
   {

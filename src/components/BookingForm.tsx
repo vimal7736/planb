@@ -60,7 +60,7 @@ export default function BookingForm() {
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
               <div className="relative z-10">
-                <h3 className="text-xl md:text-2xl font-serif font-bold mb-4 md:mb-6">Sanjay Munna</h3>
+                <h3 className="text-xl md:text-2xl font-serif font-bold mb-4 md:mb-6">Plan B Studio</h3>
 
                 <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 md:gap-5">
                   <div className="flex flex-col md:flex-row items-start gap-2 md:gap-4 col-span-2 md:col-span-1">
@@ -90,7 +90,7 @@ export default function BookingForm() {
                     <svg className="w-5 h-5 md:w-5 md:h-5 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     <div>
                       <h4 className="font-medium opacity-60 text-[10px] md:text-[10px] uppercase tracking-widest mb-0.5 md:mb-1">Email</h4>
-                      <a href="mailto:sanjay@email.com" className="text-xs md:text-[15px] hover:underline transition-all line-clamp-1 font-light">sanjay@email.com</a>
+                      <a href="mailto:hello@planbstudio.com" className="text-xs md:text-[15px] hover:underline transition-all line-clamp-1 font-light">hello@planbstudio.com</a>
                     </div>
                   </div>
 
@@ -267,7 +267,7 @@ export default function BookingForm() {
 
               <div className="bg-background border border-primary/10 rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 shadow-inner">
                 <p className="text-[10px] md:text-xs font-medium tracking-widest uppercase opacity-60 mb-1 md:mb-2">Want faster response?</p>
-                <p className="text-base md:text-lg font-serif font-bold mb-3 md:mb-4">Message Sanjay Munna directly:</p>
+                <p className="text-base md:text-lg font-serif font-bold mb-3 md:mb-4">Message Plan B directly:</p>
                 
                 <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
                   <a 
