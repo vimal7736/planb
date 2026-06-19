@@ -47,6 +47,18 @@ export default function Navbar() {
           </div>
 
           <a 
+            href="#services" 
+            className="text-foreground hover:text-primary transition-colors cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              triggerLoader(() => {
+                document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+              });
+            }}
+          >
+            Services
+          </a>
+          <a 
             href="#portfolio" 
             className="text-foreground hover:text-primary transition-colors cursor-pointer"
             onClick={(e) => {
@@ -58,6 +70,7 @@ export default function Navbar() {
           >
             Portfolio
           </a>
+          <Link href="#reviews" className="text-foreground hover:text-primary transition-colors">Reviews</Link>
           <Link href="#about" className="text-foreground hover:text-primary transition-colors">About</Link>
           <Link 
             href="#booking" 

@@ -244,3 +244,50 @@
 .rd-1:checked ~ .mobile-nav-slidebar { transform: translateX(0) scaleX(1); }
 .rd-2:checked ~ .mobile-nav-slidebar { transform: translateX(100%) scaleX(1); }
 .rd-3:checked ~ .mobile-nav-slidebar { transform: translateX(200%) scaleX(1); }
+
+/* --- CUSTOM REVIEWS ANIMATIONS --- */
+@keyframes moveDot {
+  0%,
+  100% {
+    top: 10%;
+    right: 10%;
+  }
+  25% {
+    top: 10%;
+    right: calc(100% - 35px);
+  }
+  50% {
+    top: calc(100% - 30px);
+    right: calc(100% - 35px);
+  }
+  75% {
+    top: calc(100% - 30px);
+    right: 10%;
+  }
+}
+
+.animate-moveDot {
+  animation: moveDot 6s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 40s linear infinite;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}

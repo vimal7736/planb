@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const PORTFOLIO_IMAGES = [
+const BASE_IMAGES = [
   { id: 1, src: "/tattooos/akram-huseyn-smtP9zIj6qU-unsplash.jpg", alt: "Custom tattoo piece 1", title: "Eternal Bloom", desc: "Fine-line floral arrangement" },
   { id: 2, src: "/tattooos/dylan-sauerwein-j4n6xTkVjyY-unsplash.jpg", alt: "Custom tattoo piece 2", title: "Sacred Geometry", desc: "Minimalist dotwork mandala" },
   { id: 3, src: "/tattooos/eugene-chystiakov-udEtTnAcSD8-unsplash.jpg", alt: "Custom tattoo piece 3", title: "Midnight Ink", desc: "Bold shading and linework" },
@@ -17,9 +17,40 @@ const PORTFOLIO_IMAGES = [
   { id: 11, src: "/tattooos/tattoo-6.png", alt: "Minimalist animal tattoo", title: "Wildlife Silhouette", desc: "Minimalist animal form" },
 ];
 
+// Create exactly 27 dummy images for 3 pages of 9
+const PORTFOLIO_IMAGES = [
+  ...BASE_IMAGES,
+  ...BASE_IMAGES.map(img => ({ ...img, id: img.id + 100 })),
+  ...BASE_IMAGES.map(img => ({ ...img, id: img.id + 200 })).slice(0, 5)
+];
+
 export default function Portfolio() {
   const [selectedImage, setSelectedImage] = useState<typeof PORTFOLIO_IMAGES[0] | null>(null);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const ITEMS_PER_PAGE = 9;
+  const totalPages = Math.ceil(PORTFOLIO_IMAGES.length / ITEMS_PER_PAGE);
+  const paginatedImages = PORTFOLIO_IMAGES.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          entry.target.classList.remove('opacity-0', 'translate-y-12');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    
+    return () => observer.disconnect();
+  }, [currentPage]);
 
   return (
     <section id="portfolio" className="py-16 bg-background-alt/30">
@@ -31,35 +62,72 @@ export default function Portfolio() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-8">
-          {PORTFOLIO_IMAGES.map((img) => (
+        <div className="group grid grid-cols-3 gap-2 md:gap-8">
+          {paginatedImages.map((img, idx) => (
             <div 
               key={img.id} 
-              className="group relative aspect-square overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer"
+              className="reveal-on-scroll opacity-0 translate-y-12 transition-all duration-700 ease-out group/item relative aspect-square overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer md:group-hover:opacity-40 md:hover:!opacity-100 md:hover:z-10"
+              style={{ transitionDelay: `${(idx % 4) * 100}ms` }}
               onClick={() => setSelectedImage(img)}
             >
+              {!loadedImages[img.id] && (
+                <div className="absolute inset-0 bg-primary/10 animate-pulse z-0"></div>
+              )}
               <Image
                 src={img.src}
                 alt={img.alt}
                 fill
-                className={`object-cover transition-all duration-1000 group-hover:scale-125 ${
+                className={`object-cover transition-all duration-1000 group-hover/item:scale-125 z-10 ${
                   loadedImages[img.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
                 }`}
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                 loading="lazy"
                 onLoad={() => setLoadedImages((prev) => ({ ...prev, [img.id]: true }))}
               />
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/80 transition-colors duration-500 flex flex-col items-center justify-center p-4 text-center">
-                <span className="text-background opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-serif text-lg md:text-xl font-bold translate-y-4 group-hover:translate-y-0 transform">
+              <div className="absolute inset-0 bg-primary/0 group-hover/item:bg-primary/80 transition-colors duration-500 flex flex-col items-center justify-center p-4 text-center z-20">
+                <span className="text-background opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 font-serif text-lg md:text-xl font-bold translate-y-4 group-hover/item:translate-y-0 transform">
                   {img.title}
                 </span>
-                <span className="text-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-xs md:text-sm mt-2 translate-y-4 group-hover:translate-y-0 transform delay-75 pointer-events-none">
+                <span className="text-background/80 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 text-xs md:text-sm mt-2 translate-y-4 group-hover/item:translate-y-0 transform delay-75 pointer-events-none">
                   {img.desc}
                 </span>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-12 md:mt-16">
+            <button
+              onClick={() => {
+                setCurrentPage(p => Math.max(1, p - 1));
+                setTimeout(() => {
+                  document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              disabled={currentPage === 1}
+              className="px-6 py-2 border border-primary/20 rounded-full hover:bg-primary/10 disabled:opacity-30 disabled:pointer-events-none transition-all font-medium tracking-wider text-sm"
+            >
+              Previous
+            </button>
+            <span className="text-sm opacity-60 font-medium tracking-widest uppercase">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => {
+                setCurrentPage(p => Math.min(totalPages, p + 1));
+                setTimeout(() => {
+                  document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              disabled={currentPage === totalPages}
+              className="px-6 py-2 border border-primary/20 rounded-full hover:bg-primary/10 disabled:opacity-30 disabled:pointer-events-none transition-all font-medium tracking-wider text-sm"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Lightbox Modal */}
