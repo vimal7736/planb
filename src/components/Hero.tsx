@@ -46,7 +46,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link 
               href="#booking" 
-              className="px-8 py-4 bg-primary text-background rounded-full font-medium hover:bg-primary-dark transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-primary/20 text-center"
+              className="px-8 py-4 bg-primary text-background rounded-full font-medium transition-all transform hover:scale-95 active:scale-90 neumorphic-inset text-center"
             >
               Request Appointment
             </Link>

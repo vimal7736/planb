@@ -46,7 +46,6 @@ export default function Navbar() {
 
           <Link href="#portfolio" className="text-foreground hover:text-primary transition-colors">Portfolio</Link>
           <Link href="#about" className="text-foreground hover:text-primary transition-colors">About</Link>
-          <Link href="#faq" className="text-foreground hover:text-primary transition-colors">FAQ</Link>
           <Link 
             href="#booking" 
             className="px-5 py-2 bg-primary text-background rounded-full hover:bg-primary-dark transition-all transform hover:scale-105 active:scale-95 shadow-md"

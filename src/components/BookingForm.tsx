@@ -27,14 +27,65 @@ export default function BookingForm() {
       <div className="absolute top-1/2 right-[-10%] w-[800px] h-[800px] bg-background-alt rounded-full mix-blend-multiply filter blur-[100px] opacity-50 -translate-y-1/2"></div>
       
       <div className="w-full px-4 md:px-12 xl:px-24 relative z-10">
-        <div className="max-w-4xl mx-auto bg-background/50 backdrop-blur-sm p-6 md:p-12 rounded-3xl shadow-lg border border-primary/10">
-          <div className="text-center mb-8 space-y-3">
-            <h2 className="text-3xl font-bold font-serif tracking-tight">Request an Appointment</h2>
-            <p className="opacity-80">
-              Fill out the form below with your ideas, preferred dates, and reference images. 
-              We will get back to you within 48 hours to confirm your slot.
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12 space-y-3">
+            <h2 className="text-4xl md:text-5xl font-black font-serif tracking-tight">Connect & Create</h2>
+            <p className="opacity-80 max-w-2xl mx-auto">
+              Ready to bring your vision to life? Reach out to schedule a consultation, discuss your ideas, or book your next masterpiece.
             </p>
           </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            {/* Contact Info Sidebar */}
+            <div className="lg:col-span-4 bg-primary text-background p-8 md:p-10 rounded-3xl shadow-xl space-y-8 h-full flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-serif font-bold mb-6">Sanjay Munna</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <svg className="w-6 h-6 shrink-0 mt-1 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <div>
+                      <h4 className="font-medium opacity-70 text-sm uppercase tracking-wider mb-1">Studio Address</h4>
+                      <p className="leading-relaxed">Ground floor, Address Mall, 673001, Oyitty Rd, near City Stand, Palayam, Kozhikode, Kerala 673001</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <svg className="w-6 h-6 shrink-0 mt-1 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    <div>
+                      <h4 className="font-medium opacity-70 text-sm uppercase tracking-wider mb-1">Phone</h4>
+                      <a href="tel:09895904119" className="text-lg hover:underline transition-all">098959 04119</a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <svg className="w-6 h-6 shrink-0 mt-1 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div>
+                      <h4 className="font-medium opacity-70 text-sm uppercase tracking-wider mb-1">Email</h4>
+                      <a href="mailto:sanjay@email.com" className="text-lg hover:underline transition-all">sanjay@email.com</a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <svg className="w-6 h-6 shrink-0 mt-1 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                      <h4 className="font-medium opacity-70 text-sm uppercase tracking-wider mb-1">Hours</h4>
+                      <p className="text-lg">Open 24 hours</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="pt-8 border-t border-background/20 mt-8">
+                <p className="opacity-70 text-sm leading-relaxed">
+                  We maintain a highly sterile environment and strictly follow health guidelines to ensure your safety and comfort.
+                </p>
+              </div>
+            </div>
+
+            {/* Booking Form */}
+            <div className="lg:col-span-8 bg-background/50 backdrop-blur-sm p-6 md:p-10 rounded-3xl shadow-lg border border-primary/10">
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -138,10 +189,12 @@ export default function BookingForm() {
             >
               {isSubmitting ? "Sending Request..." : "Submit Booking Request"}
             </button>
-            <p className="text-xs text-center opacity-60 mt-4">
-              * Submitting this form does not guarantee an appointment. We will contact you to confirm.
+            <p className="text-xs text-center opacity-60 mt-6">
+              * Submitting this form does not guarantee an appointment. We will contact you to confirm the date and time.
             </p>
           </form>
+            </div>
+          </div>
         </div>
       </div>
     </section>
