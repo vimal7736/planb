@@ -19,9 +19,32 @@ export default function Navbar() {
   return (
     <nav className="hidden md:block sticky top-0 z-50 w-full bg-background/90 backdrop-blur-md border-b border-primary/20 transition-all duration-300">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold font-serif tracking-widest text-primary uppercase">
-          PLAN B
-        </Link>
+        <div className="relative flex items-center group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          {/* Wow Factor: Spinning Enso Loop with Text */}
+          <div className="absolute -left-5 top-1/2 -translate-y-1/2 w-12 h-12 text-primary pointer-events-none">
+            <svg viewBox="0 0 100 100" className="w-full h-full animate-[spin_15s_linear_infinite] opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+              <defs>
+                <path id="circlePath" d="M 50, 50 m -43, 0 a 43,43 0 1,1 86,0 a 43,43 0 1,1 -86,0" />
+              </defs>
+              
+            {/* Clean Concentric Circular Loop Paths */}
+            <path d="M 50 50 m -8 0 a 8 8 0 1 1 16 0 a 8 8 0 1 1 -16 0" fill="none" stroke="currentColor" strokeWidth="0.5" strokeLinecap="round" />
+            <path d="M 50 50 m -16 0 a 16 16 0 1 1 32 0 a 16 16 0 1 1 -32 0" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            <path d="M 50 50 m -24 0 a 24 24 0 1 1 48 0 a 24 24 0 1 1 -48 0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M 50 50 m -32 0 a 32 32 0 1 1 64 0 a 32 32 0 1 1 -64 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              
+              <text className="text-[8px] font-bold uppercase tracking-[0.1em]" fill="currentColor">
+                <textPath href="#circlePath" startOffset="0%">
+                  TRAPPED IN THE LOOP • BOUND BY INK •
+                </textPath>
+              </text>
+            </svg>
+          </div>
+          
+          <Link href="/" className="text-xl md:text-2xl font-bold font-serif tracking-widest text-primary uppercase relative z-10 pl-8" onClick={(e) => e.preventDefault()}>
+            PLAN B
+          </Link>
+        </div>
         
         <div className="flex gap-6 items-center text-sm font-medium">
           <div className="theme-switch">
