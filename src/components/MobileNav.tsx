@@ -24,8 +24,8 @@ export default function MobileNav() {
   };
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden w-fit max-w-[90%] flex items-center gap-2">
-      <div className="mobile-nav-wrap w-full flex items-center justify-between">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] md:hidden w-[90%] max-w-[320px] p-1.5 bg-background/80 backdrop-blur-2xl border border-primary/20 rounded-full shadow-[0_10px_40px_rgba(85,107,47,0.15)] flex items-center gap-1 transition-all duration-300">
+      <div className="mobile-nav-wrap flex-1 flex items-center justify-between relative bg-transparent border-none shadow-none">
         <input
           type="radio"
           id="rd-1"
@@ -35,7 +35,7 @@ export default function MobileNav() {
           onChange={() => setActiveTab("rd-1")}
         />
         <label htmlFor="rd-1" className="mobile-nav-label" onClick={() => document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" })} aria-label="Home">
-          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
         </label>
 
         <input
@@ -56,7 +56,7 @@ export default function MobileNav() {
           }} 
           aria-label="Portfolio"
         >
-          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         </label>
 
         <input
@@ -68,13 +68,15 @@ export default function MobileNav() {
           onChange={() => setActiveTab("rd-3")}
         />
         <label htmlFor="rd-3" className="mobile-nav-label" onClick={() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" })} aria-label="Book">
-          <svg className="w-4 h-4 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <svg className="w-5 h-5 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
         </label>
 
         <div className="mobile-nav-slidebar"></div>
       </div>
 
-      <div className="theme-switch shrink-0 bg-background-alt rounded-full shadow-lg border border-accent-secondary" style={{ fontSize: '1rem', padding: '4px' }}>
+      <div className="w-[1px] h-8 bg-primary/20 shrink-0 mx-1"></div>
+
+      <div className="theme-switch shrink-0 mr-1" style={{ fontSize: '1rem', padding: '4px' }}>
           <input 
             type="checkbox" 
             id="mobile-theme-checkbox" 
@@ -83,7 +85,7 @@ export default function MobileNav() {
             style={{ display: 'none' }}
           />
           <label htmlFor="mobile-theme-checkbox" style={{ margin: 0, backgroundColor: 'transparent', boxShadow: 'none' }}>
-            <div style={{ backgroundColor: 'var(--text-main)' }}></div>
+            <div className="bg-primary shadow-sm" style={{ backgroundColor: 'var(--text-main)' }}></div>
             <span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd"></path>
@@ -95,7 +97,7 @@ export default function MobileNav() {
               </svg>
             </span>
           </label>
-        </div>
       </div>
+    </div>
   );
 }
