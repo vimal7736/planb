@@ -65,33 +65,57 @@ export default function Portfolio() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 backdrop-blur-md p-4 cursor-zoom-out"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-xl p-4 md:p-8 lg:p-12 cursor-zoom-out"
           onClick={() => setSelectedImage(null)}
         >
-          <div className="relative w-full max-w-5xl aspect-square md:aspect-auto md:h-[75vh]">
-            <Image
-              src={selectedImage.src}
-              alt={selectedImage.alt}
-              fill
-              className="object-contain animate-in fade-in zoom-in duration-300"
-            />
-          </div>
-
-          <div className="mt-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-xl">
-            <h3 className="text-white font-serif text-2xl tracking-wide">{selectedImage.title}</h3>
-            <p className="text-white/60 mt-2 text-sm font-light tracking-wide uppercase">{selectedImage.desc}</p>
-          </div>
-          <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white p-2"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedImage(null);
-            }}
+          <div 
+            className="relative w-full max-w-5xl bg-white/5 border border-white/10 rounded-3xl p-4 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col md:flex-row gap-6 md:gap-10 items-center cursor-default animate-in zoom-in-95 fade-in duration-500"
+            onClick={(e) => e.stopPropagation()}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+            {/* Close button inside card */}
+            <button 
+              className="absolute top-4 right-4 text-white/60 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full p-2 transition-all z-10"
+              onClick={() => setSelectedImage(null)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Left side: Image */}
+            <div className="relative w-full aspect-square md:flex-1 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                fill
+                className="object-cover"
+              />
+            </div>
+
+            {/* Right side: Info */}
+            <div className="w-full md:w-[350px] flex flex-col justify-center space-y-6 md:py-10">
+              <div className="space-y-3">
+                <h3 className="text-white font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight leading-none">{selectedImage.title}</h3>
+                <p className="text-primary-light text-sm font-medium tracking-[0.2em] uppercase text-[#a5b28b]">{selectedImage.desc}</p>
+              </div>
+              
+              <div className="w-16 h-[1px] bg-white/20"></div>
+              
+              <p className="text-white/60 text-sm md:text-base leading-relaxed font-light">
+                Every piece is meticulously designed with a focus on fine lines, fluid shading, and elegant form to perfectly complement your natural contours.
+              </p>
+              
+              <button 
+                className="mt-4 px-8 py-4 bg-white text-black text-sm font-semibold tracking-wider uppercase rounded-full hover:scale-95 transition-transform w-full md:w-auto shadow-xl"
+                onClick={() => {
+                  setSelectedImage(null);
+                  document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Inquire About Style
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </section>
