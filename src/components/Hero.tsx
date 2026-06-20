@@ -148,7 +148,10 @@ export default function Hero() {
         <div className="w-full h-full px-4 md:px-12 xl:px-24 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
 
           {/* Left Column - Dynamic Content (Text -> Loader -> Reveal) */}
-          <div className="flex-1 w-full relative min-h-[400px] flex flex-col justify-center">
+          <div 
+            className="flex-1 w-full relative flex flex-col justify-center transition-all duration-1000 md:min-h-[400px]"
+            style={{ minHeight: animationProgress > 0.8 ? "250px" : "400px" }}
+          >
 
             {/* Go Back Button (Appears at the end of the sequence) */}
             <div
@@ -318,7 +321,10 @@ export default function Hero() {
           </div>
 
           {/* Right Column - Image Carousel OR Premium Cards */}
-          <div className="flex-1 w-full h-full relative py-10 md:py-16 flex items-center justify-center">
+          <div 
+            className="flex-1 w-full h-full relative flex items-center justify-center transition-all duration-1000 md:py-16"
+            style={{ paddingTop: animationProgress > 0.8 ? "0px" : "2.5rem", paddingBottom: animationProgress > 0.8 ? "0px" : "2.5rem" }}
+          >
             {/* State 1: Image Carousel (Hidden when animationProgress > 0.8) */}
             <div 
               className="absolute inset-x-0 w-full relative aspect-[4/5] md:aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-4 border-background-alt group transition-all duration-1000"
@@ -348,14 +354,15 @@ export default function Hero() {
 
             {/* State 2: Premium Cards (Visible when animationProgress > 0.8) */}
             <div 
-              className="absolute inset-0 flex flex-wrap items-center justify-center gap-4 transition-all duration-1000 z-30"
+              className="absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-0"
               style={{
                 opacity: animationProgress > 0.8 ? 1 : 0,
                 transform: `scale(${animationProgress > 0.8 ? 1 : 1.05})`,
                 pointerEvents: animationProgress > 0.8 ? "auto" : "none",
               }}
             >
-              <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-8 md:mt-0 px-4">
+              {/* Using grid-cols-3 on mobile to force 3 in a row, with max-width limits to avoid stretching */}
+              <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center gap-2 md:gap-6 w-full max-w-[400px] md:max-w-none px-2 md:px-4 pb-12 md:pb-0">
                 <PremiumCard 
                   title="Realism" 
                   description="Hyper-realistic portraits & nature" 
