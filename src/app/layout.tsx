@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Outfit, Exo, Stardos_Stencil } from "next/font/google";
 import "./globals.css";
 import { LoaderProvider } from "@/components/LoaderProvider";
+import { SmoothCursor } from "@/components/lightswind/smooth-cursor";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -43,6 +44,7 @@ export default function RootLayout({
         <LoaderProvider>
           {children}
         </LoaderProvider>
+        <SmoothCursor size={12} color="#556B2F" />
       </body>
     </html>
   );

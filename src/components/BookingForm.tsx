@@ -2,12 +2,24 @@
 
 import { useState } from "react";
 import { Calendar, Clock, MapPin, Mail, Phone } from "lucide-react";
-import CustomDateTimePicker from "./CustomDateTimePicker";
+import AdvancedBookingModal from "./AdvancedBookingModal";
 
 export default function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState<{
+    date: Date | null;
+    time: string | null;
+    duration: number | null;
+    size: string | null;
+  }>({
+    date: null,
+    time: null,
+    duration: null,
+    size: null,
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -151,11 +163,32 @@ export default function BookingForm() {
                     />
                   </div>
                   <div className="space-y-1 md:space-y-1.5 relative z-50">
-                  <label htmlFor="date" className="text-[10px] font-medium tracking-wider uppercase opacity-80">Preferred Date & Time</label>
-                  <div className="scale-[0.95] md:scale-100 origin-top-left">
-                    <CustomDateTimePicker id="date" required />
+                    <label className="text-[10px] font-medium tracking-wider uppercase opacity-80">Preferred Date & Time</label>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(true)}
+                      className={`w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 rounded-lg md:rounded-xl text-left flex items-center justify-between transition-all text-sm shadow-sm hover:border-primary/50 ${
+                        bookingDetails.date ? "border-primary" : "border-primary/20"
+                      }`}
+                    >
+                      <span className={`${bookingDetails.date ? "text-foreground font-medium" : "text-foreground/50"}`}>
+                        {bookingDetails.date && bookingDetails.time 
+                          ? `${bookingDetails.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${bookingDetails.time} (${bookingDetails.size})`
+                          : "Select Appointment Slot"}
+                      </span>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 md:w-5 md:h-5 text-primary">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                      </svg>
+                    </button>
+                    {/* Hidden input for required form validation */}
+                    <input 
+                      type="text" 
+                      required 
+                      className="sr-only" 
+                      value={bookingDetails.date ? "Selected" : ""} 
+                      onChange={() => {}} 
+                    />
                   </div>
-                </div>
                 </div>
 
                 <div className="space-y-1 md:space-y-1.5">
@@ -222,6 +255,14 @@ export default function BookingForm() {
           </div>
         </div>
       </div>
+
+      <AdvancedBookingModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={(date, time, duration, size) => {
+          setBookingDetails({ date, time, duration, size });
+        }}
+      />
 
       {/* Success Modal */}
       {isSuccessOpen && (

@@ -25,6 +25,11 @@
     --accent-primary-light: #6E8A3D;
     --accent-secondary: #556B2F40;
     --color-scheme: light;
+    
+    /* Cursor Colors */
+    --cursor-color: #000000;
+    --cursor-glow: rgba(0, 0, 0, 0.4);
+    --cursor-bg: rgba(0, 0, 0, 0.2);
   }
 
   /* Dark Minimal (Matte Black & Soft White) */
@@ -37,6 +42,11 @@
     --accent-primary-light: #D4D4D4;
     --accent-secondary: #A3A3A340;
     --color-scheme: dark;
+    
+    /* Cursor Colors */
+    --cursor-color: #556B2F; /* Olive green */
+    --cursor-glow: rgba(85, 107, 47, 0.4);
+    --cursor-bg: rgba(85, 107, 47, 0.2);
   }
 
   html {
@@ -48,6 +58,11 @@
     color: var(--color-foreground);
     @apply antialiased transition-colors duration-500;
   }
+}
+
+/* Hide default cursor globally to support custom SmoothCursor. Placed outside layers for max specificity */
+* {
+  cursor: none !important;
 }
 
 @layer utilities {
