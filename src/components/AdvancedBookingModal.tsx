@@ -154,48 +154,48 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
       ></div>
       
       {/* Modal Content */}
-      <div className="relative bg-background-alt border border-primary/20 rounded-3xl shadow-[0_0_80px_rgba(85,107,47,0.15)] w-full max-w-5xl h-[85vh] md:h-[75vh] flex flex-col overflow-hidden animate-in zoom-in-95 fade-in duration-300">
+      <div className="relative bg-background-alt border border-primary/20 rounded-2xl shadow-[0_0_80px_rgba(85,107,47,0.15)] w-[95vw] md:max-w-5xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 fade-in duration-300">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 md:p-8 border-b border-primary/10 relative overflow-hidden">
+        <div className="flex items-center justify-between p-4 md:p-5 border-b border-primary/10 relative overflow-hidden shrink-0">
           {/* Subtle Background Glow */}
           <div className="absolute inset-0 bg-primary/5 pointer-events-none"></div>
           
           <div>
-            <h2 className="text-2xl md:text-3xl font-serif font-black tracking-tight">Select Appointment</h2>
-            <p className="opacity-70 text-sm mt-1">Plan B Studio • Kozhikode</p>
+            <h2 className="text-xl md:text-2xl font-serif font-black tracking-tight">Select Appointment</h2>
+            <p className="opacity-70 text-xs mt-0.5">Plan B Studio • Kozhikode</p>
           </div>
           <button 
             onClick={onClose}
-            className="p-2 bg-background/50 hover:bg-primary/20 rounded-full transition-colors z-10"
+            className="p-1.5 bg-background/50 hover:bg-primary/20 rounded-full transition-colors z-10"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         {/* Body */}
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-[500px]">
           
           {/* Step 1: Size & Calendar */}
-          <div className="flex-1 overflow-y-auto p-6 md:p-8 border-r border-primary/10 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-4 md:p-5 border-r border-primary/10 custom-scrollbar">
             
             {/* Tattoo Size Selection */}
-            <div className="mb-8">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-primary/80 mb-4">1. Select Tattoo Size</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="mb-5">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-primary/80 mb-2.5">1. Select Tattoo Size</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {TATTOO_SIZES.map((size) => (
                   <button
                     key={size.id}
                     onClick={() => setSelectedSize(size)}
-                    className={`p-4 rounded-xl border text-left transition-all ${
+                    className={`p-3 rounded-lg border text-left transition-all ${
                       selectedSize.id === size.id 
                         ? "border-primary bg-primary/10 shadow-[0_0_15px_rgba(85,107,47,0.2)]" 
                         : "border-primary/20 hover:border-primary/40 bg-background/50"
                     }`}
                   >
-                    <div className="font-serif font-bold text-lg mb-1">{size.name}</div>
-                    <div className="text-xs opacity-70 mb-2">{size.description}</div>
-                    <div className="text-[10px] uppercase tracking-wider font-semibold bg-background-alt inline-block px-2 py-1 rounded-md opacity-80">
+                    <div className="font-serif font-bold text-sm md:text-base mb-0.5">{size.name}</div>
+                    <div className="text-[9px] md:text-[10px] opacity-70 mb-1.5">{size.description}</div>
+                    <div className="text-[9px] uppercase tracking-wider font-semibold bg-background-alt inline-block px-1.5 py-0.5 rounded-md opacity-80">
                       {size.duration} {size.duration === 1 ? 'Hour' : 'Hours'}
                     </div>
                   </button>
@@ -205,38 +205,38 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
 
             {/* Calendar */}
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-primary/80 mb-4">2. Select Date</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-primary/80 mb-2.5">2. Select Date</h3>
               
-              <div className="bg-background/50 rounded-2xl border border-primary/10 p-5 md:p-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="bg-background/50 rounded-xl border border-primary/10 p-3 md:p-4">
+                <div className="flex items-center justify-between mb-3">
                   <button 
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))}
-                    className="p-2 hover:bg-primary/10 rounded-full transition-colors"
+                    className="p-1 hover:bg-primary/10 rounded-full transition-colors"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
                   </button>
-                  <h4 className="font-serif text-lg font-bold tracking-wide">
+                  <h4 className="font-serif text-sm font-bold tracking-wide">
                     {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                   </h4>
                   <button 
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))}
-                    className="p-2 hover:bg-primary/10 rounded-full transition-colors"
+                    className="p-1 hover:bg-primary/10 rounded-full transition-colors"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                   </button>
                 </div>
 
-                <div className="grid grid-cols-7 gap-2 text-center mb-2">
+                <div className="grid grid-cols-7 gap-1 text-center mb-1">
                   {dayNames.map(day => (
-                    <div key={day} className="text-xs font-semibold uppercase tracking-wider text-primary opacity-80 py-1">
+                    <div key={day} className="text-[9px] font-semibold uppercase tracking-wider text-primary opacity-80 py-0.5">
                       {day}
                     </div>
                   ))}
                 </div>
 
-                <div className="grid grid-cols-7 gap-2 text-center">
+                <div className="grid grid-cols-7 gap-1 text-center">
                   {padding.map(p => (
-                    <div key={`empty-${p}`} className="p-2" />
+                    <div key={`empty-${p}`} className="p-1" />
                   ))}
                   {days.map(day => {
                     const dateObj = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
@@ -258,7 +258,7 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
                         disabled={isDisabled}
                         onClick={() => setSelectedDate(dateObj)}
                         className={`
-                          p-2 w-10 h-10 md:w-12 md:h-12 mx-auto rounded-full text-sm font-medium transition-all relative flex items-center justify-center
+                          p-1 w-8 h-8 md:w-10 md:h-10 mx-auto rounded-full text-xs font-medium transition-all relative flex items-center justify-center
                           ${isDisabled ? "opacity-30 cursor-not-allowed" : "hover:bg-primary/20 hover:text-primary"}
                           ${isSelected ? "bg-primary text-background shadow-md scale-110" : ""}
                         `}
@@ -272,9 +272,9 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
                   })}
                 </div>
                 
-                <div className="mt-6 flex items-center gap-4 justify-center text-xs opacity-70">
-                   <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-primary"></div> Selected</div>
-                   <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500"></div> Fully Booked</div>
+                <div className="mt-4 flex items-center gap-3 justify-center text-[10px] opacity-70">
+                   <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-primary"></div> Selected</div>
+                   <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-red-500"></div> Fully Booked</div>
                 </div>
               </div>
             </div>
@@ -282,30 +282,30 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
           </div>
 
           {/* Step 2: Time Slots */}
-          <div className="md:w-80 p-6 md:p-8 bg-background/30 overflow-y-auto custom-scrollbar flex flex-col">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-primary/80 mb-4">
+          <div className="md:w-72 p-4 md:p-5 bg-background/30 overflow-y-auto custom-scrollbar flex flex-col">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-primary/80 mb-3">
               3. Select Time
             </h3>
 
             {!selectedDate ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-center opacity-50 px-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-16 h-16 mb-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>
-                <p>Please select a date from the calendar to view available time slots.</p>
+              <div className="flex-1 flex flex-col items-center justify-center text-center opacity-50 px-3">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-12 h-12 mb-3"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" /></svg>
+                <p className="text-xs">Please select a date from the calendar to view available time slots.</p>
               </div>
             ) : (
               <>
-                <p className="font-serif text-lg mb-6">
+                <p className="font-serif text-sm mb-4">
                   {monthNames[selectedDate.getMonth()]} {selectedDate.getDate()}, {selectedDate.getFullYear()}
                 </p>
                 
-                <div className="space-y-3 flex-1">
+                <div className="space-y-2 flex-1">
                   {availableTimes.map(({ time, isAvailable }) => (
                     <button
                       key={time}
                       disabled={!isAvailable}
                       onClick={() => setSelectedTime(time)}
                       className={`
-                        w-full p-4 rounded-xl text-center transition-all border font-medium flex items-center justify-between
+                        w-full p-2.5 rounded-lg text-center transition-all border text-sm font-medium flex items-center justify-between
                         ${!isAvailable 
                           ? "opacity-40 cursor-not-allowed border-dashed border-primary/20 bg-background/10" 
                           : selectedTime === time
@@ -314,22 +314,22 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
                       `}
                     >
                       <span>{time}</span>
-                      {!isAvailable && <span className="text-[10px] uppercase tracking-widest opacity-70">Booked</span>}
+                      {!isAvailable && <span className="text-[9px] uppercase tracking-widest opacity-70">Booked</span>}
                     </button>
                   ))}
                   
                   {availableTimes.every(t => !t.isAvailable) && (
-                    <div className="text-center py-8 text-sm opacity-70">
+                    <div className="text-center py-6 text-xs opacity-70">
                       No slots available for a {selectedSize.duration}-hour session on this day. Please select another date.
                     </div>
                   )}
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-primary/10">
+                <div className="mt-5 pt-4 border-t border-primary/10">
                   <button
                     disabled={!selectedTime}
                     onClick={handleConfirm}
-                    className="w-full py-4 bg-primary text-background rounded-xl font-bold tracking-widest uppercase hover:scale-[0.98] transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-xl shadow-primary/20"
+                    className="w-full py-3 bg-primary text-background rounded-lg text-sm font-bold tracking-widest uppercase hover:scale-[0.98] transition-transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-xl shadow-primary/20"
                   >
                     Confirm Selection
                   </button>
