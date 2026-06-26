@@ -3,54 +3,116 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState, useMemo } from "react";
+import { supabase } from "@/lib/supabase";
 
 export interface GalleryImage {
   id: string;
   src: string;
-  category: "Fine Line" | "Geometric" | "Realism" | "Minimalist";
-  date: string; // ISO string for sorting
+  category: string;
+  date: string;
 }
 
 interface CinematicGalleryProps {
   isOpen: boolean;
   onClose: () => void;
-  images: GalleryImage[];
+  images: GalleryImage[]; // fallback images from Hero
 }
 
-export default function CinematicGallery({ isOpen, onClose, images }: CinematicGalleryProps) {
+const ITEMS_PER_PAGE = 15;
+
+export default function CinematicGallery({ isOpen, onClose, images: fallbackImages }: CinematicGalleryProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [isSortOpen, setIsSortOpen] = useState(false);
+  
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Prevent scrolling when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      if (!isInitialized) {
+        setImages([]);
+        setPage(1);
+        setHasMore(true);
+        fetchImages(1, "All", "newest", true);
+        setIsInitialized(true);
+      }
     } else {
       document.body.style.overflow = "unset";
+      setIsInitialized(false);
     }
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
-  const categories = ["All", "Fine Line", "Geometric", "Realism", "Minimalist"];
+  // When category or sort changes, reset and fetch
+  useEffect(() => {
+    if (!isOpen || !isInitialized) return;
+    setImages([]);
+    setPage(1);
+    setHasMore(true);
+    fetchImages(1, selectedCategory, sortOrder, true);
+  }, [selectedCategory, sortOrder]);
 
-  const filteredAndSortedImages = useMemo(() => {
-    let result = [...images];
+  const fetchImages = async (pageNumber: number, category: string, sort: "newest" | "oldest", isReset: boolean = false) => {
+    setLoading(true);
 
-    if (selectedCategory !== "All") {
-      result = result.filter((img) => img.category === selectedCategory);
+    let query = supabase.from('portfolio_images').select('*', { count: 'exact' });
+    
+    if (category !== "All") {
+      query = query.eq('category', category);
+    }
+    
+    query = query.order('created_at', { ascending: sort === "oldest" });
+    
+    const from = (pageNumber - 1) * ITEMS_PER_PAGE;
+    const to = from + ITEMS_PER_PAGE - 1;
+    
+    query = query.range(from, to);
+
+    const { data, error, count } = await query;
+    
+    if (!error && data) {
+      const mapped = data.map(img => ({
+        id: img.id,
+        src: img.image_url,
+        category: img.category || 'Tattoo Art',
+        date: img.created_at
+      }));
+
+      if (isReset) {
+        setImages(mapped);
+      } else {
+        setImages(prev => [...prev, ...mapped]);
+      }
+      
+      if (count !== null && (from + data.length) >= count) {
+        setHasMore(false);
+      }
+    } else if (error) {
+      console.error(error);
     }
 
-    result.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-    });
+    setLoading(false);
+  };
 
-    return result;
-  }, [images, selectedCategory, sortOrder]);
+  const loadMore = () => {
+    if (loading || !hasMore) return;
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchImages(nextPage, selectedCategory, sortOrder);
+  };
+
+  const categories = ["All", "Fine Line", "Geometric", "Realism", "Minimalist"];
+
+  // Use fallback if database returns absolutely nothing on the very first query
+  const filteredAndSortedImages = (images.length === 0 && !hasMore && selectedCategory === "All") ? fallbackImages : images;
 
   return (
     <AnimatePresence>
@@ -213,6 +275,27 @@ export default function CinematicGallery({ isOpen, onClose, images }: CinematicG
             {filteredAndSortedImages.length === 0 && (
               <div className="py-24 text-center opacity-50">
                 <p className="font-serif text-2xl">No works found in this category.</p>
+              </div>
+            )}
+
+            {hasMore && filteredAndSortedImages.length > 0 && (
+              <div className="mt-16 flex justify-center">
+                <button 
+                  onClick={loadMore}
+                  disabled={loading}
+                  className="px-8 py-3 bg-background border border-primary/20 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-primary/5 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-sm"
+                >
+                  {loading ? (
+                    <span className="animate-pulse">Loading...</span>
+                  ) : (
+                    <>
+                      Load More
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                      </svg>
+                    </>
+                  )}
+                </button>
               </div>
             )}
 

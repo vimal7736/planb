@@ -1,45 +1,69 @@
 import { ReactNode } from "react";
 import Link from "next/link";
-import { LayoutDashboard, Users, Settings, LogOut } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen bg-[#FAF8F5]">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-[#556B2F]/10 flex flex-col">
-        <div className="p-6 border-b border-[#556B2F]/10">
-          <Link href="/" className="text-xl font-bold font-serif tracking-widest text-[#556B2F] uppercase block">
+    <div className="min-h-screen bg-[#F9FAEC] text-[#3F4A2E] flex font-sans selection:bg-[#5C6B40]/20">
+      {/* Sidebar Navigation */}
+      <aside className="w-52 bg-[#F0F2DF]/80 border-r border-[#E2E6CC] flex flex-col fixed h-full z-10 backdrop-blur-md">
+        <div className="p-4 border-b border-[#E2E6CC]">
+          <Link href="/" className="text-xl font-bold font-serif tracking-[0.1em] text-[#2C331F] uppercase hover:text-[#5C6B40] transition-colors">
             PLAN B
           </Link>
-          <span className="text-xs font-sans text-gray-500 uppercase tracking-wider font-semibold mt-1 block">Admin Panel</span>
+          <div className="text-[9px] text-[#6B7A50] mt-1 uppercase font-bold tracking-widest">Workspace</div>
         </div>
 
-        <nav className="flex-1 p-4 space-y-2">
-          <Link href="/admin" className="flex items-center gap-3 px-4 py-3 bg-[#556B2F]/5 text-[#556B2F] rounded-lg font-medium transition-colors">
-            <LayoutDashboard size={20} />
+        <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
+          <div className="text-[9px] font-bold text-[#6B7A50]/70 uppercase tracking-widest mb-1.5 mt-3 px-3">Operations</div>
+          
+          <Link href="/admin" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             Bookings
           </Link>
-          <Link href="/admin/clients" className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-[#556B2F]/5 hover:text-[#556B2F] rounded-lg font-medium transition-colors">
-            <Users size={20} />
-            Clients
+
+          <div className="text-[9px] font-bold text-[#6B7A50]/70 uppercase tracking-widest mb-1.5 mt-5 px-3">Content (CMS)</div>
+
+          <Link href="/admin/content" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            Site Text
           </Link>
-          <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-[#556B2F]/5 hover:text-[#556B2F] rounded-lg font-medium transition-colors">
-            <Settings size={20} />
-            Settings
+          
+          <Link href="/admin/services" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            Services
+          </Link>
+          
+          <Link href="/admin/portfolio" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            Portfolio Images
+          </Link>
+
+          <div className="text-[9px] font-bold text-[#6B7A50]/70 uppercase tracking-widest mb-1.5 mt-5 px-3">Growth</div>
+          
+          <Link href="/admin/blog" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+            Journal
+          </Link>
+          
+          <Link href="/admin/reviews" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+            Reviews
           </Link>
         </nav>
-
-        <div className="p-4 border-t border-[#556B2F]/10">
-          <button className="flex w-full items-center gap-3 px-4 py-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg font-medium transition-colors">
-            <LogOut size={20} />
-            Sign Out
-          </button>
+        
+        <div className="p-3 border-t border-[#E2E6CC] mt-auto">
+          <Link href="/" className="flex items-center gap-3 px-3 py-2 text-[#6B7A50] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all text-xs font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Website
+          </Link>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 overflow-auto p-8">
-        {children}
+      <main className="flex-1 ml-52 p-4 md:p-6">
+        <div className="max-w-4xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

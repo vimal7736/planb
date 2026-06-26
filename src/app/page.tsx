@@ -8,26 +8,68 @@ import Offers from "@/components/Offers";
 import Services from "@/components/Services";
 import Reviews from "@/components/Reviews";
 import Blog from "@/components/Blog";
+import { supabase } from "@/lib/supabase";
 
-export default function Home() {
+export const revalidate = 60; // Revalidate every minute
+
+export default async function Home() {
+  const { data: contentData } = await supabase.from('site_content').select('*');
+  const contentMap: Record<string, string> = {};
+  if (contentData) {
+    contentData.forEach(item => {
+      contentMap[item.id] = item.content;
+    });
+  }
+
+  // Fetch latest 15 portfolio images for the hero
+  const { data: portfolioImages } = await supabase
+    .from('portfolio')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(15);
+
   return (
     <>
       <Navbar />
       <main className="flex-1 pb-24 md:pb-0">
-        <Hero />
-        <Offers />
+        <Hero 
+          heading={contentMap['hero_heading']} 
+          subheading={contentMap['hero_subheading']} 
+          btnPrimary={contentMap['hero_btn_primary']}
+          btnSecondary={contentMap['hero_btn_secondary']}
+          btnTertiary={contentMap['hero_btn_tertiary']}
+          circularText={contentMap['hero_circular_text']}
+          portfolioImages={portfolioImages || []}
+        />
+        <Offers 
+          title={contentMap['offer_title']}
+          description={contentMap['offer_description']}
+          btnText={contentMap['offer_btn_text']}
+        />
         <Services />
         <Portfolio />
         <Reviews />
         
-        {/* Simple About Section */}
-        <section id="about" className="py-24 w-full px-4 md:px-12 xl:px-24 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black font-serif mb-6 tracking-tight">About the Artist</h2>
-            <p className="opacity-80 leading-relaxed mb-10 text-lg">
-              With over a decade of experience, I specialize in creating delicate, fine-line tattoos that flow with the natural contours of the body. My studio offers a private, serene, and fully sterile environment where your vision is translated into lasting art.
-            </p>
+        {/* About Studio & Artist Section */}
+        <section id="about" className="py-24 w-full px-4 md:px-12 xl:px-24">
+          <div className="max-w-4xl mx-auto space-y-20">
+            {/* About Us */}
+            <div className="text-center">
+              <h2 className="text-3xl md:text-5xl font-black font-serif mb-8 tracking-tight">About Us</h2>
+              <div className="space-y-6 opacity-80 leading-relaxed text-lg text-left md:text-center whitespace-pre-wrap">
+                {contentMap['about_philosophy'] || `At Plan B Tattoo Studio, we believe tattoos are more than ink on skin—they're personal stories, memories, beliefs, and moments that deserve to be transformed into timeless art.`}
+              </div>
+            </div>
+
             <div className="w-24 h-1 bg-primary/20 mx-auto rounded-full"></div>
+
+            {/* Meet the Artist */}
+            <div className="text-center">
+              <h2 className="text-3xl md:text-5xl font-black font-serif mb-4 tracking-tight">Meet the Artist</h2>
+              <div className="space-y-6 opacity-80 leading-relaxed text-lg text-left md:text-center whitespace-pre-wrap">
+                {contentMap['about_artist'] || `With over 10 years of experience in the tattoo industry, Sanjay N M is a passionate tattoo artist known for his precision, creativity, and commitment to excellence.`}
+              </div>
+            </div>
           </div>
         </section>
 

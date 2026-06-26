@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, MapPin, Mail, Phone } from "lucide-react";
+import { Calendar, Clock, MapPin, Mail, Phone, RefreshCw } from "lucide-react";
 import AdvancedBookingModal from "./AdvancedBookingModal";
+import { supabase } from "@/lib/supabase";
 
 export default function BookingForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -21,20 +22,78 @@ export default function BookingForm() {
     size: null,
   });
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [placement, setPlacement] = useState("");
+  const [description, setDescription] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
       setFileName(e.target.files[0].name);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate submission for Phase 1 UI
-    setTimeout(() => {
-      setIsSubmitting(false);
+    
+    try {
+      let reference_image_url = null;
+
+      // 1. Upload File if present
+      if (file) {
+        const fileExt = file.name.split('.').pop();
+        const uploadName = `${Math.random()}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage
+          .from('booking_references')
+          .upload(uploadName, file);
+          
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('booking_references')
+          .getPublicUrl(uploadName);
+          
+        reference_image_url = publicUrl;
+      }
+
+      // 2. Insert into bookings table
+      const { error: insertError } = await supabase.from('bookings').insert({
+        name,
+        email,
+        phone,
+        placement,
+        description,
+        reference_image_url,
+        preferred_date: bookingDetails.date ? bookingDetails.date.toISOString().split('T')[0] : null,
+        preferred_time: bookingDetails.time,
+        estimated_duration: bookingDetails.duration,
+        estimated_size: bookingDetails.size
+      });
+
+      if (insertError) throw insertError;
+
+      // 3. Show Success
       setIsSuccessOpen(true);
-    }, 1500);
+      
+      // Reset Form
+      setName("");
+      setEmail("");
+      setPhone("");
+      setPlacement("");
+      setDescription("");
+      setFile(null);
+      setFileName(null);
+      setBookingDetails({ date: null, time: null, duration: null, size: null });
+
+    } catch (error: any) {
+      alert("Error submitting request: " + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -136,6 +195,8 @@ export default function BookingForm() {
                       type="text"
                       id="name"
                       required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 border-primary/20 rounded-lg md:rounded-xl focus:outline-none focus:border-primary transition-all text-sm shadow-sm focus:shadow-md"
                       placeholder="Your name"
                     />
@@ -146,6 +207,8 @@ export default function BookingForm() {
                       type="email"
                       id="email"
                       required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 border-primary/20 rounded-lg md:rounded-xl focus:outline-none focus:border-primary transition-all text-sm shadow-sm focus:shadow-md"
                       placeholder="your@email.com"
                     />
@@ -158,6 +221,8 @@ export default function BookingForm() {
                     <input
                       type="tel"
                       id="phone"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 border-primary/20 rounded-lg md:rounded-xl focus:outline-none focus:border-primary transition-all text-sm shadow-sm focus:shadow-md"
                       placeholder="Your number"
                     />
@@ -197,6 +262,8 @@ export default function BookingForm() {
                     type="text"
                     id="placement"
                     required
+                    value={placement}
+                    onChange={(e) => setPlacement(e.target.value)}
                     className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 border-primary/20 rounded-lg md:rounded-xl focus:outline-none focus:border-primary transition-all text-sm shadow-sm focus:shadow-md"
                     placeholder="Inner forearm, approx 4 inches"
                   />
@@ -208,6 +275,8 @@ export default function BookingForm() {
                     id="description"
                     required
                     rows={3}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-transparent border-2 border-primary/20 rounded-lg md:rounded-xl focus:outline-none focus:border-primary transition-all resize-none text-sm shadow-sm focus:shadow-md"
                     placeholder="Describe your idea in detail..."
                   ></textarea>
@@ -243,9 +312,14 @@ export default function BookingForm() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3 md:py-4 bg-primary text-background rounded-lg md:rounded-xl font-bold tracking-widest uppercase hover:scale-[0.98] transition-transform disabled:opacity-70 disabled:cursor-not-allowed shadow-xl shadow-primary/20"
+                  className="w-full py-3 md:py-4 bg-primary text-background rounded-lg md:rounded-xl font-bold tracking-widest uppercase hover:scale-[0.98] transition-transform disabled:opacity-70 disabled:cursor-not-allowed shadow-xl shadow-primary/20 flex justify-center items-center gap-2"
                 >
-                  {isSubmitting ? "Sending Request..." : "Submit Booking Request"}
+                  {isSubmitting ? (
+                    <>
+                      <RefreshCw className="w-5 h-5 animate-spin" />
+                      Sending Request...
+                    </>
+                  ) : "Submit Booking Request"}
                 </button>
                 <p className="text-xs text-center opacity-60 mt-6">
                   * Submitting this form does not guarantee an appointment. We will contact you to confirm the date and time.

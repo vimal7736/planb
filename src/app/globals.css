@@ -12,6 +12,7 @@
 
   --font-sans: var(--font-outfit);
   --font-serif: var(--font-playfair);
+  --font-stardos: "Stardos Stencil", serif;
 }
 
 @layer base {
@@ -60,10 +61,6 @@
   }
 }
 
-/* Hide default cursor globally to support custom SmoothCursor. Placed outside layers for max specificity */
-* {
-  cursor: none !important;
-}
 
 @layer utilities {
   .bg-noise {

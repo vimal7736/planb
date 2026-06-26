@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { supabase } from "@/lib/supabase";
 
 interface AdvancedBookingModalProps {
   isOpen: boolean;
@@ -19,28 +20,11 @@ const WORKING_HOURS = [
   "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM"
 ];
 
-// Helper to get dummy booked slots for a specific date
-const getMockBookedSlots = (date: Date) => {
-  // Use a simple seeded random to consistently return the same booked slots for a given day
-  const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
-  
-  // A pseudo-random function based on the date seed
-  const pseudoRandom = (s: number) => {
-    let x = Math.sin(s++) * 10000;
-    return x - Math.floor(x);
-  };
-
-  const isFullyBooked = pseudoRandom(seed) > 0.85; // 15% chance a day is completely booked
-  if (isFullyBooked) return WORKING_HOURS;
-
-  const bookedSlots: string[] = [];
-  WORKING_HOURS.forEach((time, index) => {
-    // ~30% chance any given slot is booked
-    if (pseudoRandom(seed + index) > 0.7) {
-      bookedSlots.push(time);
-    }
-  });
-  return bookedSlots;
+type Booking = {
+  preferred_date: string;
+  preferred_time: string;
+  estimated_duration: string | number;
+  status: string;
 };
 
 export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: AdvancedBookingModalProps) {
@@ -48,25 +32,68 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
   const [selectedSize, setSelectedSize] = useState(TATTOO_SIZES[0]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  
+  // Store real bookings
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      fetchMonthBookings(currentMonth);
     } else {
       document.body.style.overflow = "unset";
     }
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [isOpen]);
+  }, [isOpen, currentMonth]);
 
-  // When date changes, compute booked slots
+  const fetchMonthBookings = async (date: Date) => {
+    const startDate = new Date(date.getFullYear(), date.getMonth() - 1, 1).toISOString();
+    const endDate = new Date(date.getFullYear(), date.getMonth() + 2, 0).toISOString();
+
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('preferred_date, preferred_time, estimated_duration, status')
+      .gte('preferred_date', startDate)
+      .lte('preferred_date', endDate)
+      .in('status', ['pending', 'approved']); // Ignore rejected/completed if you want them to be free
+
+    if (!error && data) {
+      setBookings(data as Booking[]);
+    }
+  };
+
+  const getBookedSlotsForDate = (date: Date) => {
+    const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    const dayBookings = bookings.filter(b => b.preferred_date === dateStr);
+    
+    const blockedSlots: string[] = [];
+    
+    dayBookings.forEach(booking => {
+      if (!booking.preferred_time) return;
+      
+      const startIndex = WORKING_HOURS.indexOf(booking.preferred_time);
+      if (startIndex === -1) return;
+      
+      // Handle duration which might be stored as string or number
+      const duration = parseInt(booking.estimated_duration as string) || 1;
+      
+      for (let i = 0; i < duration; i++) {
+        if (startIndex + i < WORKING_HOURS.length) {
+          blockedSlots.push(WORKING_HOURS[startIndex + i]);
+        }
+      }
+    });
+    
+    return blockedSlots;
+  };
+
+  // When date changes, reset time selection
   useEffect(() => {
     if (selectedDate) {
-      setBookedSlots(getMockBookedSlots(selectedDate));
-      setSelectedTime(null); // Reset time selection on date change
+      setSelectedTime(null);
     }
   }, [selectedDate, selectedSize]);
 
@@ -84,6 +111,7 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
 
     const available: { time: string; isAvailable: boolean }[] = [];
     const duration = selectedSize.duration;
+    const bookedSlots = getBookedSlotsForDate(selectedDate);
 
     WORKING_HOURS.forEach((time, i) => {
       // Check if we have enough consecutive open slots starting from this time
@@ -103,7 +131,7 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
     });
 
     return available;
-  }, [selectedDate, bookedSlots, selectedSize]);
+  }, [selectedDate, bookings, selectedSize]);
 
   if (!isOpen) return null;
 
@@ -214,8 +242,8 @@ export default function AdvancedBookingModal({ isOpen, onClose, onConfirm }: Adv
                     const dateObj = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
                     const isPast = dateObj < today;
                     
-                    // To show completely booked days in UI, we can check dummy slots
-                    const dayBookedSlots = getMockBookedSlots(dateObj);
+                    // To show completely booked days in UI, we check real slots
+                    const dayBookedSlots = getBookedSlotsForDate(dateObj);
                     const isFullyBooked = dayBookedSlots.length >= WORKING_HOURS.length;
                     const isDisabled = isPast || isFullyBooked;
 

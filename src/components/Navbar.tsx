@@ -5,16 +5,35 @@ import { useState, useEffect } from "react";
 import { useLoader } from "./LoaderProvider";
 
 export default function Navbar() {
-  const [theme, setTheme] = useState("olive");
+  const [theme, setTheme] = useState("darkminimal");
   const { triggerLoader } = useLoader();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    setMounted(true);
+    const savedTheme = localStorage.getItem('theme') || 'darkminimal';
+    setTheme(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === "olive" ? "darkminimal" : "olive");
+    setTheme(theme === "olive" ? "darkminimal" : "olive");
   };
+
+  // Prevent hydration mismatch by waiting for mount
+  if (!mounted) {
+    return (
+      <nav className="hidden md:block sticky top-0 z-50 w-full bg-background/90 backdrop-blur-md border-b border-primary/20 transition-all duration-300">
+        <div className="container mx-auto px-4 h-14" />
+      </nav>
+    );
+  }
 
   return (
     <nav className="hidden md:block sticky top-0 z-50 w-full bg-background/90 backdrop-blur-md border-b border-primary/20 transition-all duration-300">
@@ -41,9 +60,9 @@ export default function Navbar() {
             </svg>
           </div>
           
-          <Link href="/" className="text-xl md:text-2xl font-bold font-serif tracking-widest text-primary uppercase relative z-10 pl-8" onClick={(e) => e.preventDefault()}>
+          <a href="/" className="text-xl md:text-2xl font-bold font-serif tracking-widest text-primary uppercase relative z-10 pl-8" onClick={(e) => e.preventDefault()}>
             PLAN B
-          </Link>
+          </a>
         </div>
         
         <div className="flex gap-6 items-center text-sm font-medium">
@@ -93,14 +112,14 @@ export default function Navbar() {
           >
             Portfolio
           </a>
-          <Link href="#reviews" className="text-foreground hover:text-primary transition-colors">Reviews</Link>
-          <Link href="#about" className="text-foreground hover:text-primary transition-colors">About</Link>
-          <Link 
+          <a href="#reviews" className="text-foreground hover:text-primary transition-colors">Reviews</a>
+          <a href="#about" className="text-foreground hover:text-primary transition-colors">About</a>
+          <a 
             href="#booking" 
             className="px-5 py-2 bg-primary text-background rounded-full hover:bg-primary-dark transition-all transform hover:scale-105 active:scale-95 shadow-md"
           >
             Book a Session
-          </Link>
+          </a>
         </div>
       </div>
     </nav>

@@ -7,25 +7,48 @@ import { PremiumCard } from "./PremiumCard";
 import { useEffect, useState } from "react";
 
 const HERO_IMAGES: GalleryImage[] = [
-  { id: "1", src: "/tattooos/akram-huseyn-smtP9zIj6qU-unsplash.jpg", category: "Fine Line", date: "2024-05-15" },
-  { id: "2", src: "/tattooos/dylan-sauerwein-j4n6xTkVjyY-unsplash.jpg", category: "Realism", date: "2024-04-20" },
-  { id: "3", src: "/tattooos/eugene-chystiakov-udEtTnAcSD8-unsplash.jpg", category: "Geometric", date: "2024-06-01" },
-  { id: "4", src: "/tattooos/jj-jordan-eenumTwM6Ec-unsplash.jpg", category: "Minimalist", date: "2024-03-10" },
-  { id: "5", src: "/tattooos/stories-ink-tattoo-care-kZuIc5Jtmfc-unsplash.jpg", category: "Fine Line", date: "2024-05-28" },
-  { id: "6", src: "/tattooos/tattoo-1.png", category: "Geometric", date: "2024-02-14" },
-  { id: "7", src: "/tattooos/tattoo-2.png", category: "Realism", date: "2024-01-05" },
-  { id: "8", src: "/tattooos/tattoo-3.png", category: "Minimalist", date: "2024-06-12" },
-  { id: "9", src: "/tattooos/tattoo-4.png", category: "Fine Line", date: "2023-11-20" },
-  { id: "10", src: "/tattooos/tattoo-5.png", category: "Geometric", date: "2023-12-15" },
-  { id: "11", src: "/tattooos/tattoo-6.png", category: "Realism", date: "2024-05-05" },
-  // Let's duplicate them to create a "dense" gallery feel with many images
-  { id: "12", src: "/tattooos/tattoo-1.png", category: "Minimalist", date: "2024-06-15" },
-  { id: "13", src: "/tattooos/tattoo-2.png", category: "Fine Line", date: "2024-06-18" },
-  { id: "14", src: "/tattooos/tattoo-3.png", category: "Geometric", date: "2024-06-19" },
-  { id: "15", src: "/tattooos/tattoo-4.png", category: "Realism", date: "2024-06-20" },
+  { id: "1", src: "/real/IMG_2087.PNG", category: "Fine Line", date: "2024-05-15" },
+  { id: "2", src: "/real/IMG_2088.JPG.jpeg", category: "Realism", date: "2024-04-20" },
+  { id: "3", src: "/real/IMG_2089.PNG", category: "Geometric", date: "2024-06-01" },
+  { id: "4", src: "/real/IMG_2517.PNG", category: "Minimalist", date: "2024-03-10" },
+  { id: "5", src: "/real/IMG_2528.PNG", category: "Fine Line", date: "2024-05-28" },
+  { id: "6", src: "/real/IMG_2529.PNG", category: "Geometric", date: "2024-02-14" },
+  { id: "7", src: "/real/IMG_2530.PNG", category: "Realism", date: "2024-01-05" },
+  { id: "8", src: "/real/IMG_2531.PNG", category: "Minimalist", date: "2024-06-12" },
+  { id: "9", src: "/real/IMG_2532.PNG", category: "Fine Line", date: "2023-11-20" },
+  { id: "10", src: "/real/IMG_2533.PNG", category: "Geometric", date: "2023-12-15" },
+  { id: "11", src: "/real/IMG_2534.PNG", category: "Realism", date: "2024-05-05" },
+  { id: "12", src: "/real/IMG_2535.PNG", category: "Minimalist", date: "2024-06-15" },
+  { id: "13", src: "/real/IMG_2537.PNG", category: "Fine Line", date: "2024-06-18" },
+  { id: "14", src: "/real/IMG_2540.PNG", category: "Geometric", date: "2024-06-19" },
+  { id: "15", src: "/real/IMG_2541.PNG", category: "Realism", date: "2024-06-20" },
+  { id: "16", src: "/real/IMG_2542.PNG", category: "Fine Line", date: "2024-06-21" },
 ];
 
-export default function Hero() {
+export default function Hero({ 
+  heading, 
+  subheading,
+  btnPrimary,
+  btnSecondary,
+  btnTertiary,
+  circularText,
+  portfolioImages = []
+}: { 
+  heading?: string, 
+  subheading?: string,
+  btnPrimary?: string,
+  btnSecondary?: string,
+  btnTertiary?: string,
+  circularText?: string,
+  portfolioImages?: any[]
+}) {
+  const displayImages = portfolioImages.length > 0 ? portfolioImages.map(img => ({
+    id: img.id,
+    src: img.image_url,
+    category: img.category,
+    date: img.created_at
+  })) : HERO_IMAGES;
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
@@ -137,7 +160,7 @@ export default function Hero() {
 
               <text className="text-[6px] font-bold uppercase tracking-[0.3em]" fill="currentColor">
                 <textPath href="#heroTopCircle" startOffset="0%">
-                  TRAPPED IN THE LOOP • BOUND BY INK • TRAPPED IN THE LOOP • BOUND BY INK •
+                  {circularText || "TRAPPED IN THE LOOP • BOUND BY INK • TRAPPED IN THE LOOP • BOUND BY INK •"}
                 </textPath>
               </text>
             </svg>
@@ -145,17 +168,23 @@ export default function Hero() {
         </div>
 
         {/* Foreground Content Layout */}
-        <div className="w-full h-full px-4 md:px-12 xl:px-24 flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+        <div 
+          className="w-full h-full px-4 md:px-12 xl:px-24 flex flex-col md:flex-row items-center justify-between transition-all duration-1000 relative z-10"
+          style={{ gap: animationProgress > 0.8 ? "0.5rem" : "2rem" }}
+        >
 
           {/* Left Column - Dynamic Content (Text -> Loader -> Reveal) */}
           <div 
-            className="flex-1 w-full relative flex flex-col justify-center transition-all duration-1000 md:min-h-[400px]"
-            style={{ minHeight: animationProgress > 0.8 ? "250px" : "400px" }}
+            className="flex-1 w-full relative flex flex-col transition-all duration-1000 md:min-h-[400px] md:justify-center pb-4"
+            style={{ 
+              minHeight: animationProgress > 0.8 ? "200px" : "400px",
+              justifyContent: animationProgress > 0.8 ? "flex-end" : "center" 
+            }}
           >
 
             {/* Go Back Button (Appears at the end of the sequence) */}
             <div
-              className="absolute -top-12 left-0 z-50"
+              className="absolute -top-32 md:-top-48 left-0 z-50"
               style={{
                 opacity: Math.max(0, (animationProgress - 0.9) * 10),
                 pointerEvents: animationProgress > 0.9 ? "auto" : "none",
@@ -164,12 +193,14 @@ export default function Hero() {
             >
               <button
                 onClick={() => animateSequence('backward')}
-                className="flex items-center gap-2 px-4 py-2 text-primary/60 hover:text-primary transition-all group"
+                className="flex items-center gap-3 px-2 py-2 text-foreground/70 hover:text-primary transition-all group relative"
               >
-                <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span className="text-xs font-bold uppercase tracking-[0.2em]">Go Back</span>
+                <div className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center group-hover:border-primary transition-colors duration-300">
+                  <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                </div>
+                <span className="text-xl md:text-3xl font-bold font-stardos tracking-widest mt-1">GO BACK</span>
               </button>
             </div>
 
@@ -183,29 +214,53 @@ export default function Hero() {
               }}
             >
               <div className="space-y-4 md:space-y-6">
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black font-serif tracking-tighter text-foreground leading-[0.9]">
-                  FINE LINE <br />
-                  <span className="text-primary italic font-light">&</span> CUSTOM <br />
-                  DESIGN.
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-stardos tracking-normal text-foreground leading-[1.1] whitespace-pre-wrap">
+                  {heading ? (
+                    heading.split('\n').map((line, i) => (
+                      <span key={i} className="block">{line}</span>
+                    ))
+                  ) : (
+                    <>
+                      <span className="block">WHERE EVERY</span>
+                      <span className="block italic font-light text-primary">TATTOO BEGINS</span>
+                      <span className="block">WITH A CONVERSATION.</span>
+                    </>
+                  )}
                 </h1>
-                <p className="text-lg md:text-xl opacity-80 max-w-md mx-auto md:mx-0 font-light text-foreground">
-                  Minimalist, elegant, and timeless tattoo art crafted specifically for you.
+                <p className="text-xl md:text-2xl text-foreground/70 font-medium font-sans mb-12 animate-fade-in-up flex items-center justify-center lg:justify-start gap-4">
+                  <span className="w-12 h-[2px] bg-primary hidden md:block"></span>
+                  {subheading || "Timeless Tattoos. Honest Craftsmanship."}
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Link
+              <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center md:justify-start mt-8">
+                {/* 1. Request Appointment (Primary Glow) */}
+                <a
                   href="#booking"
-                  className="px-8 py-4 bg-primary text-background rounded-full font-medium transition-transform transform hover:scale-95 active:scale-90 neumorphic-inset text-center"
+                  className="group relative px-8 py-4 bg-primary text-background rounded-full font-bold font-sans uppercase tracking-[0.15em] text-xs transition-all hover:scale-105 active:scale-95 overflow-hidden text-center flex items-center justify-center shadow-[0_0_20px_var(--accent-secondary)]"
                 >
-                  Request Appointment
-                </Link>
-                <Link
+                  <span className="relative z-10">{btnPrimary || "Request Appointment"}</span>
+                  <div className="absolute inset-0 bg-background/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                </a>
+                
+                {/* 2. View Portfolio (Minimal Outline) */}
+                <a
                   href="#portfolio"
-                  className="px-8 py-4 border-2 border-primary/30 text-primary rounded-full font-medium hover:bg-primary/5 transition-colors text-center"
+                  className="group px-8 py-4 border border-primary/40 text-primary rounded-full font-bold font-sans uppercase tracking-[0.15em] text-xs hover:border-primary hover:bg-primary/5 transition-all text-center flex items-center justify-center backdrop-blur-sm"
                 >
-                  View Portfolio
-                </Link>
+                  {btnSecondary || "View Portfolio"}
+                </a>
+                
+                {/* 3. Enter Studio (Action with Arrow) */}
+                <button
+                  onClick={() => animateSequence('forward')}
+                  className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-transparent bg-background-alt/50 text-primary hover:bg-primary hover:text-background transition-all backdrop-blur-sm font-bold font-sans uppercase tracking-[0.15em] text-xs"
+                >
+                  <span>{btnTertiary || "Enter Studio"}</span>
+                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -272,13 +327,13 @@ export default function Hero() {
 
                   {/* Floating Thumbnails */}
                   <div className="flex -space-x-3 md:-space-x-4">
-                    {[HERO_IMAGES[0], HERO_IMAGES[1], HERO_IMAGES[2]].map((img, i) => (
+                    {displayImages.slice(0, 3).map((img, i) => (
                       <div
                         key={i}
                         className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-background overflow-hidden relative shadow-lg transform transition-transform duration-500 group-hover:scale-110`}
                         style={{ transitionDelay: `${i * 50}ms`, zIndex: 3 - i }}
                       >
-                        <Image src={img.src} alt="thumbnail" fill className="object-cover" />
+                        <Image src={img.src} alt="thumbnail" fill className="object-cover" unoptimized />
                       </div>
                     ))}
                   </div>
@@ -298,32 +353,16 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Enter Studio Trigger Button (Replaces Scroll Hint) */}
-            <div
-              className="absolute -bottom-10 md:-bottom-20 left-0 right-0 flex flex-col items-center justify-center z-40"
-              style={{
-                opacity: Math.max(0, 1 - animationProgress * 15),
-                pointerEvents: animationProgress > 0 ? "none" : "auto",
-                transition: "opacity 0.3s ease-out"
-              }}
-            >
-              <button
-                onClick={() => animateSequence('forward')}
-                className="flex items-center gap-3 px-8 py-3 rounded-full border border-primary/30 text-primary hover:bg-primary/5 hover:border-primary/60 transition-all group"
-              >
-                <span className="text-xs font-bold uppercase tracking-[0.2em] ml-[0.2em]">Enter Studio</span>
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </button>
-            </div>
-
           </div>
 
           {/* Right Column - Image Carousel OR Premium Cards */}
           <div 
-            className="flex-1 w-full h-full relative flex items-center justify-center transition-all duration-1000 md:py-16"
-            style={{ paddingTop: animationProgress > 0.8 ? "0px" : "2.5rem", paddingBottom: animationProgress > 0.8 ? "0px" : "2.5rem" }}
+            className="flex-1 w-full h-full relative flex flex-col transition-all duration-1000 md:py-16 pt-2"
+            style={{ 
+              paddingTop: animationProgress > 0.8 ? "0px" : "2.5rem", 
+              paddingBottom: animationProgress > 0.8 ? "0px" : "2.5rem",
+              justifyContent: animationProgress > 0.8 ? "flex-start" : "center"
+            }}
           >
             {/* State 1: Image Carousel (Hidden when animationProgress > 0.8) */}
             <div 
@@ -334,7 +373,7 @@ export default function Hero() {
                 pointerEvents: animationProgress > 0.8 ? "none" : "auto",
               }}
             >
-              {HERO_IMAGES.slice(0, 11).map((img, index) => (
+              {displayImages.slice(0, 11).map((img, index) => (
                 <Image
                   key={img.id}
                   src={img.src}
@@ -342,6 +381,7 @@ export default function Hero() {
                   fill
                   priority={index < 2}
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  unoptimized
                   className={`absolute inset-0 object-cover transition-all duration-[2000ms] ease-in-out ${index === currentImageIndex && loadedImages[index]
                     ? "opacity-100 scale-100 blur-0 z-10"
                     : "opacity-0 scale-105 blur-sm z-0"
@@ -393,7 +433,7 @@ export default function Hero() {
       <CinematicGallery
         isOpen={isGalleryOpen}
         onClose={() => setIsGalleryOpen(false)}
-        images={HERO_IMAGES}
+        images={displayImages}
       />
     </section>
   );

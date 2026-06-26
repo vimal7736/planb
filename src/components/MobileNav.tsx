@@ -6,22 +6,28 @@ import { useLoader } from "./LoaderProvider";
 
 export default function MobileNav() {
   const [activeTab, setActiveTab] = useState("rd-1");
-  const [theme, setTheme] = useState("olive");
+  const [theme, setTheme] = useState("darkminimal");
   const { triggerLoader } = useLoader();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Sync with existing theme if possible, or just set it
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "olive";
-    setTheme(currentTheme);
+    setMounted(true);
+    const savedTheme = localStorage.getItem('theme') || 'darkminimal';
+    setTheme(savedTheme);
   }, []);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    if (mounted) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === "olive" ? "darkminimal" : "olive");
+    setTheme(theme === "olive" ? "darkminimal" : "olive");
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] md:hidden w-[90%] max-w-[320px] p-1.5 bg-background/80 backdrop-blur-2xl border border-primary/20 rounded-full shadow-[0_10px_40px_rgba(85,107,47,0.15)] flex items-center gap-1 transition-all duration-300">

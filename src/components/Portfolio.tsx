@@ -3,38 +3,40 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const BASE_IMAGES = [
-  { id: 1, src: "/tattooos/akram-huseyn-smtP9zIj6qU-unsplash.jpg", alt: "Custom tattoo piece 1", title: "Eternal Bloom", desc: "Fine-line floral arrangement" },
-  { id: 2, src: "/tattooos/dylan-sauerwein-j4n6xTkVjyY-unsplash.jpg", alt: "Custom tattoo piece 2", title: "Sacred Geometry", desc: "Minimalist dotwork mandala" },
-  { id: 3, src: "/tattooos/eugene-chystiakov-udEtTnAcSD8-unsplash.jpg", alt: "Custom tattoo piece 3", title: "Midnight Ink", desc: "Bold shading and linework" },
-  { id: 4, src: "/tattooos/jj-jordan-eenumTwM6Ec-unsplash.jpg", alt: "Custom tattoo piece 4", title: "Fluid Form", desc: "Abstract natural contours" },
-  { id: 5, src: "/tattooos/stories-ink-tattoo-care-kZuIc5Jtmfc-unsplash.jpg", alt: "Custom tattoo piece 5", title: "Delicate Branch", desc: "Botanical micro-tattoo" },
-  { id: 6, src: "/tattooos/tattoo-1.png", alt: "Fine line floral tattoo on shoulder", title: "Shoulder Floral", desc: "Soft shading & fine lines" },
-  { id: 7, src: "/tattooos/tattoo-2.png", alt: "Minimalist geometric tattoo on arm", title: "Geo Band", desc: "Precision geometry" },
-  { id: 8, src: "/tattooos/tattoo-3.png", alt: "Abstract micro tattoo", title: "Micro Abstraction", desc: "Single needle artistry" },
-  { id: 9, src: "/tattooos/tattoo-4.png", alt: "Botanical sleeve tattoo", title: "Botanical Sleeve", desc: "Flowing organic elements" },
-  { id: 10, src: "/tattooos/tattoo-5.png", alt: "Delicate script tattoo", title: "Script Lettering", desc: "Elegant handwritten quote" },
-  { id: 11, src: "/tattooos/tattoo-6.png", alt: "Minimalist animal tattoo", title: "Wildlife Silhouette", desc: "Minimalist animal form" },
-];
+import { supabase, PortfolioImage } from "@/lib/supabase";
 
-// Create exactly 27 dummy images for 3 pages of 9
-const PORTFOLIO_IMAGES = [
-  ...BASE_IMAGES,
-  ...BASE_IMAGES.map(img => ({ ...img, id: img.id + 100 })),
-  ...BASE_IMAGES.map(img => ({ ...img, id: img.id + 200 })).slice(0, 5)
+const FALLBACK_IMAGES: PortfolioImage[] = [
+  { id: "1", image_url: "/real/IMG_2087.PNG", category: "Fine Line", created_at: "2024-05-15" },
+  { id: "2", image_url: "/real/IMG_2088.JPG.jpeg", category: "Realism", created_at: "2024-04-20" },
+  { id: "3", image_url: "/real/IMG_2089.PNG", category: "Geometric", created_at: "2024-06-01" },
+  { id: "4", image_url: "/real/IMG_2517.PNG", category: "Minimalist", created_at: "2024-03-10" },
+  { id: "5", image_url: "/real/IMG_2528.PNG", category: "Fine Line", created_at: "2024-05-28" },
+  { id: "6", image_url: "/real/IMG_2529.PNG", category: "Geometric", created_at: "2024-02-14" },
+  { id: "7", image_url: "/real/IMG_2530.PNG", category: "Realism", created_at: "2024-01-05" },
+  { id: "8", image_url: "/real/IMG_2531.PNG", category: "Minimalist", created_at: "2024-06-12" },
+  { id: "9", image_url: "/real/IMG_2532.PNG", category: "Fine Line", created_at: "2023-11-20" }
 ];
 
 export default function Portfolio() {
-  const [selectedImage, setSelectedImage] = useState<typeof PORTFOLIO_IMAGES[0] | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+  const [images, setImages] = useState<PortfolioImage[]>(FALLBACK_IMAGES);
+  const [selectedImage, setSelectedImage] = useState<PortfolioImage | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   
-  const ITEMS_PER_PAGE = 9;
-  const totalPages = Math.ceil(PORTFOLIO_IMAGES.length / ITEMS_PER_PAGE);
-  const paginatedImages = PORTFOLIO_IMAGES.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  useEffect(() => {
+    async function fetchPortfolio() {
+      const { data } = await supabase.from('portfolio_images').select('*').order('created_at', { ascending: false });
+      if (data && data.length > 0) setImages(data);
+      setLoading(false);
+    }
+    fetchPortfolio();
+  }, []);
+
+  const displayImages = images; // We'll show all images in the infinite scroll
+
+  // Duplicate images for infinite scroll effect
+  const marqueeImages = [...displayImages, ...displayImages, ...displayImages];
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -62,72 +64,53 @@ export default function Portfolio() {
           </p>
         </div>
 
-        <div className="group grid grid-cols-3 gap-2 md:gap-8">
-          {paginatedImages.map((img, idx) => (
-            <div 
-              key={img.id} 
-              className="reveal-on-scroll opacity-0 translate-y-12 transition-all duration-700 ease-out group/item relative aspect-square overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer md:group-hover:opacity-40 md:hover:!opacity-100 md:hover:z-10"
-              style={{ transitionDelay: `${(idx % 4) * 100}ms` }}
-              onClick={() => setSelectedImage(img)}
-            >
-              {!loadedImages[img.id] && (
-                <div className="absolute inset-0 bg-primary/10 animate-pulse z-0"></div>
-              )}
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                className={`object-cover transition-all duration-1000 group-hover/item:scale-125 z-10 ${
-                  loadedImages[img.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
-                }`}
-                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                loading="lazy"
-                onLoad={() => setLoadedImages((prev) => ({ ...prev, [img.id]: true }))}
-              />
-              <div className="absolute inset-0 bg-primary/0 group-hover/item:bg-primary/80 transition-colors duration-500 flex flex-col items-center justify-center p-4 text-center z-20">
-                <span className="text-background opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 font-serif text-lg md:text-xl font-bold translate-y-4 group-hover/item:translate-y-0 transform">
-                  {img.title}
-                </span>
-                <span className="text-background/80 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 text-xs md:text-sm mt-2 translate-y-4 group-hover/item:translate-y-0 transform delay-75 pointer-events-none">
-                  {img.desc}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Infinite Scroll Marquee Container */}
+        <div className="relative w-full overflow-hidden mt-8 -mx-4 px-4 md:-mx-12 md:px-12 xl:-mx-24 xl:px-24">
+          
+          {/* Fading Edges */}
+          <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
 
-        {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-12 md:mt-16">
-            <button
-              onClick={() => {
-                setCurrentPage(p => Math.max(1, p - 1));
-                setTimeout(() => {
-                  document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              disabled={currentPage === 1}
-              className="px-6 py-2 border border-primary/20 rounded-full hover:bg-primary/10 disabled:opacity-30 disabled:pointer-events-none transition-all font-medium tracking-wider text-sm"
-            >
-              Previous
-            </button>
-            <span className="text-sm opacity-60 font-medium tracking-widest uppercase">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => {
-                setCurrentPage(p => Math.min(totalPages, p + 1));
-                setTimeout(() => {
-                  document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              disabled={currentPage === totalPages}
-              className="px-6 py-2 border border-primary/20 rounded-full hover:bg-primary/10 disabled:opacity-30 disabled:pointer-events-none transition-all font-medium tracking-wider text-sm"
-            >
-              Next
-            </button>
+          <div className="flex w-max animate-infinite-scroll hover:[animation-play-state:paused] gap-4 md:gap-8 py-4">
+            {marqueeImages.map((img, idx) => (
+              <div 
+                key={`${img.id}-${idx}`} 
+                className="group/item relative w-[250px] md:w-[350px] aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer shrink-0 border border-primary/10 hover:border-primary/40 transition-all hover:shadow-2xl"
+                onClick={() => setSelectedImage(img)}
+              >
+                {!loadedImages[img.id] && (
+                  <div className="absolute inset-0 bg-primary/10 animate-pulse z-0"></div>
+                )}
+                <Image
+                  src={img.image_url}
+                  alt={img.alt_text || 'Portfolio image'}
+                  fill
+                  className={`object-cover transition-transform duration-1000 group-hover/item:scale-110 z-10 ${
+                    loadedImages[img.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
+                  }`}
+                  sizes="(max-width: 768px) 250px, 350px"
+                  loading="lazy"
+                  onLoad={() => setLoadedImages((prev) => ({ ...prev, [img.id]: true }))}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 z-20">
+                  <span className="text-primary font-serif text-xl font-bold translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500">
+                    {img.category || 'Tattoo Art'}
+                  </span>
+                  <span className="text-foreground/70 text-sm mt-1 translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500 delay-75">
+                    {img.alt_text || 'Custom design'}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
+
+          {loading && <div className="py-12 text-center opacity-60">Loading gallery...</div>}
+          {!loading && images.length === 0 && (
+            <div className="py-12 text-center opacity-60">
+              No images in the portfolio yet. Add some from the Admin Dashboard!
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Lightbox Modal */}
@@ -153,8 +136,8 @@ export default function Portfolio() {
             {/* Left side: Image */}
             <div className="relative w-full aspect-square md:flex-1 rounded-2xl overflow-hidden shadow-2xl border border-white/10">
               <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
+                src={selectedImage.image_url}
+                alt={selectedImage.alt_text || 'Portfolio image'}
                 fill
                 className="object-cover"
               />
@@ -163,8 +146,8 @@ export default function Portfolio() {
             {/* Right side: Info */}
             <div className="w-full md:w-[350px] flex flex-col justify-center space-y-6 md:py-10">
               <div className="space-y-3">
-                <h3 className="text-white font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight leading-none">{selectedImage.title}</h3>
-                <p className="text-primary-light text-sm font-medium tracking-[0.2em] uppercase text-[#a5b28b]">{selectedImage.desc}</p>
+                <h3 className="text-white font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight leading-none">{selectedImage.category || 'Tattoo Art'}</h3>
+                <p className="text-primary-light text-sm font-medium tracking-[0.2em] uppercase text-[#a5b28b]">{selectedImage.alt_text || 'Custom design'}</p>
               </div>
               
               <div className="w-16 h-[1px] bg-white/20"></div>

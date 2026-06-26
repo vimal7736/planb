@@ -38,65 +38,8 @@ export default function CustomCursor() {
         target.closest("select")
       );
       
-      setIsHovering(isCurrentlyHovering);
-
-      // High-performance direct DOM particle trail
-      if (trailContainerRef.current) {
-        const dist = Math.hypot(e.clientX - lastTrailPos.current.x, e.clientY - lastTrailPos.current.y);
-        
-        // Only spawn a particle if we moved enough distance (e.g. 15px) or if we are hovering (draw dots more frequently)
-        const distanceThreshold = isCurrentlyHovering ? 10 : 25;
-
-        if (dist > distanceThreshold) {
-          lastTrailPos.current = { x: e.clientX, y: e.clientY };
-
-          const particle = document.createElement("div");
-          
-          if (isCurrentlyHovering) {
-            // Draw ink dots when hovering
-            particle.className = "absolute rounded-full bg-primary pointer-events-none z-[9998]";
-            const size = Math.random() * 4 + 2; // 2px to 6px
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            // Add a little scatter
-            const offsetX = (Math.random() - 0.5) * 10;
-            const offsetY = (Math.random() - 0.5) * 10;
-            particle.style.left = `${e.clientX + offsetX}px`;
-            particle.style.top = `${e.clientY + offsetY}px`;
-            particle.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
-            particle.style.opacity = "0.8";
-            particle.style.transform = "scale(1)";
-          } else {
-            // Draw tiny sparkles when moving normally
-            particle.className = "absolute rounded-full bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)] pointer-events-none z-[9998]";
-            const size = Math.random() * 2 + 1; // 1px to 3px
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${e.clientX}px`;
-            particle.style.top = `${e.clientY}px`;
-            particle.style.transition = "opacity 0.4s ease-out, transform 0.4s ease-out";
-            particle.style.opacity = "0.5";
-            particle.style.transform = "scale(1) translateY(0)";
-          }
-
-          trailContainerRef.current.appendChild(particle);
-
-          // Animate and remove
-          requestAnimationFrame(() => {
-            if (!isCurrentlyHovering) {
-              particle.style.transform = `scale(0) translateY(${Math.random() * 20 - 10}px)`;
-            } else {
-              particle.style.transform = "scale(0.5)";
-            }
-            particle.style.opacity = "0";
-          });
-
-          setTimeout(() => {
-            if (particle.parentNode) {
-              particle.parentNode.removeChild(particle);
-            }
-          }, 600); // Remove after animation finishes
-        }
+      if (isHovering !== isCurrentlyHovering) {
+        setIsHovering(isCurrentlyHovering);
       }
     };
 
@@ -119,12 +62,13 @@ export default function CustomCursor() {
       <div ref={trailContainerRef} className="fixed inset-0 pointer-events-none z-[9998] overflow-hidden" />
 
       <motion.div
-        className="fixed top-0 left-0 z-[9999] pointer-events-none mix-blend-difference text-white"
+        className="fixed top-0 left-0 z-[9999] pointer-events-none text-primary"
         style={{
           x: cursorX,
           y: cursorY,
           translateX: "-10%",
           translateY: "-10%",
+          willChange: "transform",
         }}
       >
       <motion.div
@@ -137,7 +81,8 @@ export default function CustomCursor() {
       >
         <svg 
           viewBox="0 0 100 100" 
-          className="w-full h-full text-current absolute inset-0 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+          className="w-full h-full text-current absolute inset-0"
+
           fill="none" 
           stroke="currentColor" 
           strokeWidth="3" 

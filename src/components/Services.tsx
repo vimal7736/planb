@@ -1,45 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { supabase, Service } from "@/lib/supabase";
 
-const SERVICES = [
-  {
-    title: "Fine Line",
-    desc: "Delicate, single-needle precision for elegant and timeless minimalist designs.",
-    rotation: -15,
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-    )
-  },
-  {
-    title: "Realism",
-    desc: "Highly detailed, scaled-down realistic portraits and objects with extreme accuracy.",
-    rotation: -5,
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-    )
-  },
-  {
-    title: "Black & Grey",
-    desc: "Classic monochromatic pieces utilizing varying shades of black ink for depth.",
-    rotation: 5,
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3.512 15H9v5.488A9.025 9.025 0 013.512 15z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 20.488V15h5.488A9.025 9.025 0 0115 20.488z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3.512 9H9V3.512A9.025 9.025 0 003.512 9z"></path></svg>
-    )
-  },
-  {
-    title: "Custom",
-    desc: "Collaborative, one-on-one sessions to design a completely unique tattoo.",
-    rotation: 15,
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-    )
-  }
-];
+const DEFAULT_ICON = (
+  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+);
 
 export default function Services() {
   const [isFanned, setIsFanned] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [services, setServices] = useState<Service[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -48,11 +20,26 @@ export default function Services() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    async function fetchServices() {
+      const { data } = await supabase.from('services').select('*').order('display_order', { ascending: true });
+      if (data) setServices(data);
+    }
+    fetchServices();
+  }, []);
+
+  const ITEMS_PER_PAGE = 6;
+  const totalPages = Math.max(1, Math.ceil(services.length / ITEMS_PER_PAGE));
+  const paginatedServices = services.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
-    <section id="services" className="py-24 relative overflow-hidden">
+    <section id="services" className="py-12 md:py-24 relative overflow-hidden">
       <div className="w-full px-4 md:px-12 xl:px-24 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-24 space-y-4">
+          <div className="text-center mb-10 md:mb-24 space-y-4">
             <h2 className="text-3xl md:text-5xl font-black font-serif tracking-tight">Services & Specialties</h2>
             <p className="max-w-2xl mx-auto opacity-70 leading-relaxed font-light">
               Elevating the craft of tattooing through precision, artistry, and a dedication to minimalist aesthetics. 
@@ -61,40 +48,99 @@ export default function Services() {
           </div>
 
           <div 
-            className="relative flex justify-center items-center h-[500px] md:h-[400px] cursor-pointer group"
-            onClick={() => setIsFanned(!isFanned)}
+            className="w-full flex flex-col items-center justify-center relative"
             onMouseEnter={() => setIsFanned(true)}
             onMouseLeave={() => setIsFanned(false)}
           >
-            {SERVICES.map((service, idx) => (
+            <div 
+              className={`relative flex justify-center items-center cursor-pointer group transition-all duration-500 w-full ${isFanned ? 'h-[450px] md:h-[700px]' : 'h-[380px] md:h-[400px]'}`}
+              onClick={() => setIsFanned(!isFanned)}
+            >
+              {paginatedServices.map((service, idx) => {
+                // Calculate a simulated rotation based on index since we removed it from DB
+                const total = paginatedServices.length;
+                const centerIdx = Math.floor(total / 2);
+                const rotation = (idx - centerIdx) * 10;
+                
+                let translateX = 0;
+                let translateY = 0;
+                
+                if (isFanned) {
+                  if (isMobile) {
+                    translateX = (idx - centerIdx) * 60;
+                    translateY = Math.abs(idx - centerIdx) * 40;
+                  } else {
+                    if (idx < 3) {
+                      // Top row (up to 3 items)
+                      const row1Count = Math.min(total, 3);
+                      const row1Center = (row1Count - 1) / 2;
+                      translateX = (idx - row1Center) * 260;
+                      translateY = total > 3 ? -150 : 0; // Only move up if there's a second row
+                    } else {
+                      // Bottom row (up to 3 items)
+                      const row2Count = total - 3;
+                      const row2Center = (row2Count - 1) / 2;
+                      translateX = (idx - 3 - row2Center) * 260;
+                      translateY = 150;
+                    }
+                  }
+                }
+                
+                return (
+                  <div 
+                    key={service.id || idx}
+                    className="absolute w-40 h-56 md:w-56 md:h-72 bg-background border border-primary/20 shadow-2xl flex flex-col justify-start pt-6 md:pt-8 items-center text-center transition-all duration-700 ease-out rounded-2xl backdrop-blur-md px-3 md:px-4"
+                    style={{
+                      transform: isFanned 
+                        ? `rotate(0deg) translate(${translateX}px, ${translateY}px)`
+                        : `rotate(${rotation}deg)`,
+                      zIndex: isFanned ? 10 + idx : 10 - Math.abs(idx - centerIdx),
+                      transitionDelay: isFanned ? `${idx * 100}ms` : `${(total - 1 - Math.abs(idx - centerIdx)) * 30}ms`
+                    }}
+                  >
+                    <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
+                      {DEFAULT_ICON}
+                    </div>
+                    
+                    <p className="text-xs md:text-sm opacity-70 leading-relaxed max-w-[90%] mx-auto">
+                      {service.description}
+                    </p>
+                    
+                    {/* Title Banner */}
+                    <div className="absolute bottom-0 w-full h-12 bg-primary/10 flex justify-center items-center rounded-b-2xl border-t border-primary/10">
+                      <span className="font-serif font-bold text-sm md:text-base tracking-wide text-primary">
+                        {service.title}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && isFanned && (
               <div 
-                key={idx}
-                className="absolute w-40 h-56 md:w-56 md:h-72 bg-background border border-primary/20 shadow-2xl flex flex-col justify-start pt-6 md:pt-8 items-center text-center transition-all duration-500 rounded-2xl backdrop-blur-md px-3 md:px-4"
-                style={{
-                  transform: isFanned 
-                    ? isMobile
-                      ? `rotate(0deg) translate(${(idx % 2 === 0 ? -1 : 1) * 85}px, ${(idx < 2 ? -1 : 1) * 115}px)`
-                      : `rotate(0deg) translateX(${(idx - 1.5) * 240}px)`
-                    : `rotate(${service.rotation}deg)`,
-                  zIndex: isFanned ? 10 + idx : 10 - idx
-                }}
+                className="flex justify-center items-center gap-6 md:mt-4 animate-in fade-in duration-500 pb-8 z-50"
               >
-                <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
-                  {service.icon}
-                </div>
-                
-                <p className="text-xs md:text-sm opacity-70 leading-relaxed max-w-[90%] mx-auto">
-                  {service.desc}
-                </p>
-                
-                {/* Title Banner */}
-                <div className="absolute bottom-0 w-full h-12 bg-primary/10 flex justify-center items-center rounded-b-2xl border-t border-primary/10">
-                  <span className="font-serif font-bold text-sm md:text-base tracking-wide text-primary">
-                    {service.title}
-                  </span>
-                </div>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setCurrentPage(p => Math.max(1, p - 1)); }}
+                  disabled={currentPage === 1}
+                  className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
+                >
+                  <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <span className="text-sm font-semibold tracking-widest uppercase opacity-70">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setCurrentPage(p => Math.min(totalPages, p + 1)); }}
+                  disabled={currentPage === totalPages}
+                  className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
+                >
+                  <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
               </div>
-            ))}
+            )}
           </div>
           
         </div>
