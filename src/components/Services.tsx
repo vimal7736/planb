@@ -28,15 +28,13 @@ export default function Services() {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    const element = document.getElementById('services');
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+    }, 10);
   };
 
   return (
-    <section id="services" className="py-12 md:py-24 relative overflow-hidden">
+    <section id="services" className="py-12 md:py-24 relative overflow-hidden scroll-mt-16 md:scroll-mt-24">
       <div className="w-full px-4 md:px-12 xl:px-24 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 md:mb-24 space-y-4">

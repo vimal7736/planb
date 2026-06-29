@@ -42,15 +42,13 @@ export default function Portfolio() {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    const element = document.getElementById('portfolio');
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
+    setTimeout(() => {
+      document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' });
+    }, 10);
   };
 
   return (
-    <section id="portfolio" className="py-16 bg-background-alt/30">
+    <section id="portfolio" className="py-16 bg-background-alt/30 scroll-mt-16 md:scroll-mt-24">
       <div className="w-full px-4 md:px-12 xl:px-24">
         <div className="text-center mb-12 space-y-3">
           <h2 className="text-3xl md:text-4xl font-bold font-serif tracking-tight">Selected Works</h2>
