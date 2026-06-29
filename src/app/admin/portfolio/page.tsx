@@ -101,13 +101,13 @@ export default function AdminPortfolio() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center bg-[#F0F2DF]/50 p-4 rounded-lg border border-[#E2E6CC] backdrop-blur-sm shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#F0F2DF]/50 p-4 rounded-lg border border-[#E2E6CC] backdrop-blur-sm shadow-sm">
         <div>
           <h1 className="text-xl font-bold font-serif text-[#2C331F] mb-0.5">Portfolio Manager</h1>
           <p className="text-[10px] text-[#6B7A50]">Manage images for your public gallery.</p>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex w-full md:w-auto gap-2">
           <select 
             value={uploadCategory} 
             onChange={(e) => setUploadCategory(e.target.value)}
@@ -141,7 +141,7 @@ export default function AdminPortfolio() {
       {loading ? (
         <div className="p-8 text-center text-xs text-[#6B7A50]">Loading gallery...</div>
       ) : (
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {images.map((img) => (
             <div key={img.id} className="relative group aspect-[4/5] bg-[#F0F2DF] rounded-md overflow-hidden shadow-sm border border-[#E2E6CC]">
               <Image 

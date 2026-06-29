@@ -59,7 +59,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-noise">
+      <body suppressHydrationWarning={true} className="min-h-full flex flex-col font-sans bg-noise">
         <LoaderProvider>
           {children}
         </LoaderProvider>

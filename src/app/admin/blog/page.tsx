@@ -92,7 +92,7 @@ export default function AdminBlog() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold font-serif text-gray-900 mb-2">Journal & Guides</h1>
           <p className="text-gray-500">Manage your blog articles and guides.</p>
@@ -110,10 +110,10 @@ export default function AdminBlog() {
       </div>
 
       {isEditing && (
-        <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm space-y-6">
-          <div className="flex justify-between items-center border-b border-gray-100 pb-4">
-            <h2 className="text-xl font-bold font-serif">New Article</h2>
-            <button onClick={() => setIsEditing(false)} className="text-gray-400 hover:text-gray-700">
+        <div className="bg-[#F0F2DF]/50 p-6 rounded-xl border border-[#E2E6CC] shadow-sm space-y-6 backdrop-blur-sm">
+          <div className="flex justify-between items-center border-b border-[#E2E6CC] pb-4">
+            <h2 className="text-xl font-bold font-serif text-[#2C331F]">New Article</h2>
+            <button onClick={() => setIsEditing(false)} className="text-[#6B7A50] hover:text-[#4A5D33] transition-colors">
               <X size={20} />
             </button>
           </div>
@@ -126,7 +126,7 @@ export default function AdminBlog() {
                   type="text" 
                   value={title} 
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                   placeholder="e.g. The Ultimate Aftercare Guide"
                 />
               </div>
@@ -136,7 +136,7 @@ export default function AdminBlog() {
                 <select 
                   value={category} 
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                 >
                   <option value="Guide">Guide</option>
                   <option value="Care">Care</option>
@@ -152,7 +152,7 @@ export default function AdminBlog() {
                   value={description} 
                   onChange={(e) => setDescription(e.target.value)}
                   rows={2}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                   placeholder="A brief summary for the preview card..."
                 />
               </div>
@@ -163,7 +163,7 @@ export default function AdminBlog() {
                   value={content} 
                   onChange={(e) => setContent(e.target.value)}
                   rows={8}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-mono text-sm"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors font-mono text-sm"
                   placeholder="Write your full article here (Markdown supported if you want!)..."
                 />
               </div>
@@ -217,31 +217,32 @@ export default function AdminBlog() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (
-            <div key={article.id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 flex flex-col">
-              <div className="relative w-full aspect-video bg-gray-100 group">
+            <div key={article.id} className="bg-[#FCFDF7] rounded-xl overflow-hidden shadow-sm border border-[#E2E6CC] flex flex-col hover:shadow-md transition-shadow duration-300">
+              <div className="relative w-full aspect-video bg-[#E2E6CC]/30 group">
                 <Image src={article.image_url} alt={article.title} fill className="object-cover" unoptimized />
-                <div className="absolute top-2 left-2 px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-[10px] font-bold uppercase text-primary">
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FCFDF7]/90 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-widest text-[#4A5D33] shadow-sm">
                   {article.category}
                 </div>
                 <button 
                   onClick={() => handleDelete(article)}
-                  className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-3 right-3 p-2 bg-red-500/90 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600 shadow-sm"
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={16} />
                 </button>
               </div>
-              <div className="p-4 flex flex-col flex-1">
-                <h3 className="font-serif font-bold text-lg mb-2 line-clamp-2">{article.title}</h3>
-                <p className="text-gray-500 text-sm line-clamp-3 mb-4">{article.description}</p>
-                <div className="mt-auto pt-4 border-t border-gray-100 text-xs text-gray-400">
-                  Published: {new Date(article.created_at).toLocaleDateString()}
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="font-serif font-bold text-xl mb-2 line-clamp-2 text-[#2C331F] leading-snug">{article.title}</h3>
+                <p className="text-[#6B7A50] text-sm line-clamp-3 mb-5 leading-relaxed">{article.description}</p>
+                <div className="mt-auto pt-4 border-t border-[#E2E6CC] text-xs text-[#6B7A50]/70 font-bold uppercase tracking-widest flex justify-between items-center">
+                  <span>Published:</span>
+                  <span>{new Date(article.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
           ))}
           
           {articles.length === 0 && !isEditing && (
-            <div className="col-span-full py-12 text-center text-gray-500 bg-white rounded-xl border border-dashed border-gray-300">
+            <div className="col-span-full py-16 text-center text-[#6B7A50] bg-[#F0F2DF]/30 rounded-xl border-2 border-dashed border-[#E2E6CC]">
               No articles published yet. Click "Add Article" to get started!
             </div>
           )}

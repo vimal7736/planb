@@ -70,7 +70,7 @@ export default function AdminReviews() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold font-serif text-gray-900 mb-2">Client Reviews</h1>
           <p className="text-gray-500">Manage reviews to display on the homepage.</p>
@@ -104,7 +104,7 @@ export default function AdminReviews() {
                   type="text" 
                   value={clientName} 
                   onChange={(e) => setClientName(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                   placeholder="e.g. John Doe"
                 />
               </div>
@@ -115,7 +115,7 @@ export default function AdminReviews() {
                   type="text" 
                   value={tattooStyle} 
                   onChange={(e) => setTattooStyle(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                   placeholder="e.g. Fine Line, Realism"
                 />
               </div>
@@ -125,7 +125,7 @@ export default function AdminReviews() {
                 <select 
                   value={rating} 
                   onChange={(e) => setRating(Number(e.target.value))}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                 >
                   <option value={5}>5 Stars - Excellent</option>
                   <option value={4}>4 Stars - Good</option>
@@ -141,7 +141,7 @@ export default function AdminReviews() {
                   value={text} 
                   onChange={(e) => setText(e.target.value)}
                   rows={8}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary focus:bg-white transition-colors"
                   placeholder="Paste the Google review here..."
                 />
               </div>

@@ -28,6 +28,13 @@ export default async function Home() {
     .order('created_at', { ascending: false })
     .limit(15);
 
+  // Fetch top 3 services for the hero premium cards
+  const { data: premiumServices } = await supabase
+    .from('services')
+    .select('*')
+    .order('display_order', { ascending: true })
+    .limit(3);
+
   return (
     <>
       <Navbar />
@@ -40,6 +47,7 @@ export default async function Home() {
           btnTertiary={contentMap['hero_btn_tertiary']}
           circularText={contentMap['hero_circular_text']}
           portfolioImages={portfolioImages || []}
+          premiumServices={premiumServices || []}
         />
         <Offers 
           title={contentMap['offer_title']}

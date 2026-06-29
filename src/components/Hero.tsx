@@ -32,7 +32,8 @@ export default function Hero({
   btnSecondary,
   btnTertiary,
   circularText,
-  portfolioImages = []
+  portfolioImages = [],
+  premiumServices = []
 }: { 
   heading?: string, 
   subheading?: string,
@@ -40,7 +41,8 @@ export default function Hero({
   btnSecondary?: string,
   btnTertiary?: string,
   circularText?: string,
-  portfolioImages?: any[]
+  portfolioImages?: any[],
+  premiumServices?: any[]
 }) {
   const displayImages = portfolioImages.length > 0 ? portfolioImages.map(img => ({
     id: img.id,
@@ -403,26 +405,41 @@ export default function Hero({
             >
               {/* Using grid-cols-3 on mobile to force 3 in a row, with max-width limits to avoid stretching */}
               <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center gap-2 md:gap-6 w-full max-w-[400px] md:max-w-none px-2 md:px-4 pb-12 md:pb-0">
-                <PremiumCard 
-                  title="Realism" 
-                  description="Hyper-realistic portraits & nature" 
-                  price="From $200" 
-                  imageSrc={HERO_IMAGES[4].src} 
-                  badge="PRO" 
-                />
-                <PremiumCard 
-                  title="Fine Line" 
-                  description="Delicate, minimalist precision" 
-                  price="From $150" 
-                  imageSrc={HERO_IMAGES[5].src} 
-                  badge="NEW" 
-                />
-                <PremiumCard 
-                  title="Geometric" 
-                  description="Perfect symmetry & bold patterns" 
-                  price="From $180" 
-                  imageSrc={HERO_IMAGES[6].src} 
-                />
+                {premiumServices && premiumServices.length > 0 ? (
+                  premiumServices.map(service => (
+                    <PremiumCard 
+                      key={service.id}
+                      title={service.title} 
+                      description={service.description} 
+                      price={service.price || ""} 
+                      imageSrc={service.image_url || HERO_IMAGES[4].src} 
+                      badge={service.badge || undefined} 
+                    />
+                  ))
+                ) : (
+                  <>
+                    <PremiumCard 
+                      title="Realism" 
+                      description="Hyper-realistic portraits & nature" 
+                      price="From $200" 
+                      imageSrc={HERO_IMAGES[4].src} 
+                      badge="PRO" 
+                    />
+                    <PremiumCard 
+                      title="Fine Line" 
+                      description="Delicate, minimalist precision" 
+                      price="From $150" 
+                      imageSrc={HERO_IMAGES[5].src} 
+                      badge="NEW" 
+                    />
+                    <PremiumCard 
+                      title="Geometric" 
+                      description="Perfect symmetry & bold patterns" 
+                      price="From $180" 
+                      imageSrc={HERO_IMAGES[6].src} 
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>

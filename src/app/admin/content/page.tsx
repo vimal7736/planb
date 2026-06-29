@@ -75,7 +75,7 @@ export default function AdminContent() {
           <div className="space-y-1">
             <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Main Heading</label>
             <textarea 
-              className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-2 text-xs text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
+              className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
               rows={3}
               value={localContent['hero_heading'] || ''}
               onChange={(e) => handleChange('hero_heading', e.target.value)}
@@ -86,18 +86,18 @@ export default function AdminContent() {
             <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Subheading</label>
             <input 
               type="text"
-              className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
+              className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
               value={localContent['hero_subheading'] || ''}
               onChange={(e) => handleChange('hero_subheading', e.target.value)}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Primary Btn</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['hero_btn_primary'] || ''}
                 onChange={(e) => handleChange('hero_btn_primary', e.target.value)}
               />
@@ -106,19 +106,19 @@ export default function AdminContent() {
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Secondary Btn</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['hero_btn_secondary'] || ''}
                 onChange={(e) => handleChange('hero_btn_secondary', e.target.value)}
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Tertiary Btn</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['hero_btn_tertiary'] || ''}
                 onChange={(e) => handleChange('hero_btn_tertiary', e.target.value)}
               />
@@ -127,7 +127,7 @@ export default function AdminContent() {
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Circular Text</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['hero_circular_text'] || ''}
                 onChange={(e) => handleChange('hero_circular_text', e.target.value)}
               />
@@ -144,7 +144,7 @@ export default function AdminContent() {
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Offer Title</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['offer_title'] || ''}
                 onChange={(e) => handleChange('offer_title', e.target.value)}
               />
@@ -154,7 +154,7 @@ export default function AdminContent() {
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Offer Description</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['offer_description'] || ''}
                 onChange={(e) => handleChange('offer_description', e.target.value)}
               />
@@ -164,7 +164,7 @@ export default function AdminContent() {
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Button Text</label>
               <input 
                 type="text"
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-1.5 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 value={localContent['offer_btn_text'] || ''}
                 onChange={(e) => handleChange('offer_btn_text', e.target.value)}
               />
@@ -178,7 +178,7 @@ export default function AdminContent() {
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Studio Philosophy</label>
               <textarea 
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-2 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 rows={3}
                 value={localContent['about_philosophy'] || ''}
                 onChange={(e) => handleChange('about_philosophy', e.target.value)}
@@ -188,7 +188,7 @@ export default function AdminContent() {
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-[#6B7A50] uppercase tracking-wider">Meet the Artist</label>
               <textarea 
-                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-md p-2 text-xs text-[#2C331F] focus:border-[#5C6B40] outline-none transition-all shadow-inner"
+                className="w-full bg-[#FCFDF7] border border-[#E2E6CC] rounded-lg p-3 text-sm text-[#2C331F] focus:border-[#5C6B40] focus:ring-1 focus:ring-[#5C6B40] outline-none transition-all shadow-inner"
                 rows={3}
                 value={localContent['about_artist'] || ''}
                 onChange={(e) => handleChange('about_artist', e.target.value)}

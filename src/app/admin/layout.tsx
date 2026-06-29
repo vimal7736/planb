@@ -1,12 +1,34 @@
-import { ReactNode } from "react";
+"use client";
+
+import { ReactNode, useState } from "react";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className="min-h-screen bg-[#F9FAEC] text-[#3F4A2E] flex font-sans selection:bg-[#5C6B40]/20">
+      
+      {/* Mobile Topbar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-[#F0F2DF] border-b border-[#E2E6CC] flex items-center justify-between px-4 z-50">
+        <Link href="/" className="text-lg font-bold font-serif tracking-[0.1em] text-[#2C331F] uppercase">
+          PLAN B
+        </Link>
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 text-[#4A5D33] hover:bg-[#E2E6CC] rounded-md transition-colors"
+        >
+          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
       {/* Sidebar Navigation */}
-      <aside className="w-52 bg-[#F0F2DF]/80 border-r border-[#E2E6CC] flex flex-col fixed h-full z-10 backdrop-blur-md">
-        <div className="p-4 border-b border-[#E2E6CC]">
+      <aside 
+        className={`w-52 bg-[#F0F2DF]/95 md:bg-[#F0F2DF]/80 border-r border-[#E2E6CC] flex flex-col fixed h-full z-40 backdrop-blur-md transition-transform duration-300 md:translate-x-0 top-0 pt-14 md:pt-0 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="p-4 border-b border-[#E2E6CC] hidden md:block">
           <Link href="/" className="text-xl font-bold font-serif tracking-[0.1em] text-[#2C331F] uppercase hover:text-[#5C6B40] transition-colors">
             PLAN B
           </Link>
@@ -59,8 +81,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/20 z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Main Content Area */}
-      <main className="flex-1 ml-52 p-4 md:p-6">
+      <main className="flex-1 md:ml-52 p-4 md:p-6 mt-14 md:mt-0 w-full overflow-x-hidden">
         <div className="max-w-4xl mx-auto">
           {children}
         </div>

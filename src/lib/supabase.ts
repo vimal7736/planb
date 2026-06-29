@@ -20,6 +20,9 @@ export type Service = {
   icon_svg: string | null;
   display_order: number;
   created_at: string;
+  price?: string | null;
+  image_url?: string | null;
+  badge?: string | null;
 };
 
 export type PortfolioImage = {
