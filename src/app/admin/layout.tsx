@@ -3,9 +3,25 @@
 import { ReactNode, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { logout } from "./login/actions";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Don't show the admin sidebar on the login page itself
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/admin/login");
+    router.refresh();
+  };
+
   return (
     <div className="min-h-screen bg-[#F9FAEC] text-[#3F4A2E] flex font-sans selection:bg-[#5C6B40]/20">
       
@@ -73,7 +89,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           </Link>
         </nav>
         
-        <div className="p-3 border-t border-[#E2E6CC] mt-auto">
+        <div className="p-3 border-t border-[#E2E6CC] mt-auto space-y-1">
+          <button 
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2 text-red-600/70 hover:bg-red-500/10 hover:text-red-700 rounded-md transition-all text-xs font-semibold"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            Logout
+          </button>
           <Link href="/" className="flex items-center gap-3 px-3 py-2 text-[#6B7A50] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all text-xs font-semibold">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             Back to Website
