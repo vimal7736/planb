@@ -10,6 +10,7 @@ export default function AdminBlog() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form State
@@ -172,8 +173,15 @@ export default function AdminBlog() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Cover Image</label>
               {imageUrl ? (
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-200 group">
-                  <Image src={imageUrl} alt="Cover" fill className="object-cover" unoptimized />
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-200 group bg-[#E2E6CC]/30">
+                  <Image 
+                    src={imageUrl} 
+                    alt="Cover" 
+                    fill 
+                    className={`object-cover transition-all duration-700 ease-in-out ${loadedImages['preview'] ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-md scale-105"}`}
+                    onLoad={() => setLoadedImages(prev => ({ ...prev, 'preview': true }))}
+                    unoptimized 
+                  />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button 
                       onClick={() => setImageUrl("")}
@@ -218,8 +226,16 @@ export default function AdminBlog() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (
             <div key={article.id} className="bg-[#FCFDF7] rounded-xl overflow-hidden shadow-sm border border-[#E2E6CC] flex flex-col hover:shadow-md transition-shadow duration-300">
-              <div className="relative w-full aspect-video bg-[#E2E6CC]/30 group">
-                <Image src={article.image_url} alt={article.title} fill className="object-cover" unoptimized />
+              <div className="relative w-full aspect-video bg-[#E2E6CC]/30 group overflow-hidden">
+                <Image 
+                  src={article.image_url} 
+                  alt={article.title} 
+                  fill 
+                  className={`object-cover transition-all duration-700 ease-in-out group-hover:scale-105 ${loadedImages[article.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-110"}`}
+                  onLoad={() => setLoadedImages(prev => ({ ...prev, [article.id]: true }))}
+                  unoptimized 
+                  loading="lazy"
+                />
                 <div className="absolute top-3 left-3 px-2.5 py-1 bg-[#FCFDF7]/90 backdrop-blur-md rounded text-[10px] font-bold uppercase tracking-widest text-[#4A5D33] shadow-sm">
                   {article.category}
                 </div>
