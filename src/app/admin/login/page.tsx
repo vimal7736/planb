@@ -39,7 +39,30 @@ export default function LoginPage() {
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -mr-10 -mt-10"></div>
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -ml-10 -mb-10"></div>
         
-        <div className="text-center mb-8 relative z-10">
+        <div className="text-center mb-8 relative z-10 flex flex-col items-center">
+          <div className="w-16 h-16 mb-4 text-primary relative flex justify-center items-center">
+            <svg
+              viewBox="0 0 100 100"
+              className="w-full h-full text-primary"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ transformOrigin: "bottom center", transform: "rotate(15deg)" }}
+            >
+              <path d="M 50 10 C 60 -10 80 20 90 0" strokeWidth="2" opacity="0.4" />
+              <rect x="42" y="10" width="16" height="10" rx="2" />
+              <rect x="38" y="20" width="24" height="40" rx="3" className="fill-primary/5" />
+              <line x1="38" y1="30" x2="62" y2="30" strokeWidth="1" opacity="0.3" />
+              <line x1="38" y1="50" x2="62" y2="50" strokeWidth="1" opacity="0.3" />
+              <path d="M 38 60 L 62 60 L 60 75 L 40 75 Z" />
+              <line x1="41" y1="65" x2="59" y2="65" strokeWidth="1.5" />
+              <line x1="40" y1="70" x2="60" y2="70" strokeWidth="1.5" />
+              <path d="M 43 75 L 57 75 L 52 88 L 48 88 Z" className="fill-background" />
+              <line x1="50" y1="88" x2="50" y2="98" strokeWidth="1.5" />
+            </svg>
+          </div>
           <h1 className="text-3xl font-black font-serif tracking-widest uppercase text-foreground mb-2">PLAN B</h1>
           <p className="text-sm font-medium tracking-[0.2em] uppercase text-primary/70">Admin Access</p>
         </div>

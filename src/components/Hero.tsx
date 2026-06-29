@@ -396,7 +396,7 @@ export default function Hero({
 
             {/* State 2: Premium Cards (Visible when animationProgress > 0.8) */}
             <div
-              className=" absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-0"
+              className=" absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-8 md:pt-0"
               style={{
                 opacity: animationProgress > 0.8 ? 1 : 0,
                 transform: `scale(${animationProgress > 0.8 ? 1 : 1.05})`,
@@ -404,7 +404,7 @@ export default function Hero({
               }}
             >
               {/* Using grid-cols-3 on mobile to force 3 in a row, with max-width limits to avoid stretching */}
-              <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center gap-2 md:gap-6 w-full max-w-[400px] md:max-w-none px-2 md:px-4 pb-12 md:pb-0">
+              <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center gap-2 md:gap-6 w-full max-w-[400px] md:max-w-none px-2 md:px-4 pb-12 md:pb-0 mt-12 md:mt-0">
                 {premiumServices && premiumServices.length > 0 ? (
                   premiumServices.map(service => (
                     <PremiumCard

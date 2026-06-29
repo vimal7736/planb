@@ -28,7 +28,7 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [totalPages, setTotalPages] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Prevent scrolling when open
@@ -38,7 +38,7 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
       if (!isInitialized) {
         setImages([]);
         setPage(1);
-        setHasMore(true);
+        setTotalPages(1);
         fetchImages(1, "All", "newest", true);
         setIsInitialized(true);
       }
@@ -56,7 +56,7 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
     if (!isOpen || !isInitialized) return;
     setImages([]);
     setPage(1);
-    setHasMore(true);
+    setTotalPages(1);
     fetchImages(1, selectedCategory, sortOrder, true);
   }, [selectedCategory, sortOrder]);
 
@@ -86,14 +86,11 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
         date: img.created_at
       }));
 
-      if (isReset) {
-        setImages(mapped);
-      } else {
-        setImages(prev => [...prev, ...mapped]);
-      }
+      // Pagination replaces rather than appends
+      setImages(mapped);
       
-      if (count !== null && (from + data.length) >= count) {
-        setHasMore(false);
+      if (count !== null) {
+        setTotalPages(Math.max(1, Math.ceil(count / ITEMS_PER_PAGE)));
       }
     } else if (error) {
       console.error(error);
@@ -102,17 +99,19 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
     setLoading(false);
   };
 
-  const loadMore = () => {
-    if (loading || !hasMore) return;
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchImages(nextPage, selectedCategory, sortOrder);
+  const handlePageChange = (newPage: number) => {
+    if (loading) return;
+    setPage(newPage);
+    fetchImages(newPage, selectedCategory, sortOrder, true);
+    setTimeout(() => {
+      document.getElementById('gallery-top')?.scrollIntoView({ behavior: 'smooth' });
+    }, 10);
   };
 
   const categories = ["All", "Fine Line", "Geometric", "Realism", "Minimalist"];
 
   // Use fallback if database returns absolutely nothing on the very first query
-  const filteredAndSortedImages = (images.length === 0 && !hasMore && selectedCategory === "All") ? fallbackImages : images;
+  const filteredAndSortedImages = (images.length === 0 && selectedCategory === "All" && totalPages === 1) ? fallbackImages : images;
 
   return (
     <AnimatePresence>
@@ -127,7 +126,7 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
           {/* Subtle animated background element */}
           <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none opacity-50"></div>
           
-          <div className="min-h-full px-4 md:px-8 py-10 md:py-20 max-w-[1600px] mx-auto relative z-10">
+          <div id="gallery-top" className="min-h-full px-4 md:px-8 py-10 md:py-20 max-w-[1600px] mx-auto relative z-10 scroll-mt-0">
             
             {/* Header */}
             <motion.div 
@@ -278,23 +277,27 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
               </div>
             )}
 
-            {hasMore && filteredAndSortedImages.length > 0 && (
-              <div className="mt-16 flex justify-center">
-                <button 
-                  onClick={loadMore}
-                  disabled={loading}
-                  className="px-8 py-3 bg-background border border-primary/20 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-primary/5 transition-colors disabled:opacity-50 flex items-center gap-2 shadow-sm"
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div 
+                className="flex justify-center items-center gap-6 mt-16 animate-in fade-in duration-500 pb-8 z-50"
+              >
+                <button
+                  onClick={() => handlePageChange(Math.max(1, page - 1))}
+                  disabled={page === 1 || loading}
+                  className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
                 >
-                  {loading ? (
-                    <span className="animate-pulse">Loading...</span>
-                  ) : (
-                    <>
-                      Load More
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                      </svg>
-                    </>
-                  )}
+                  <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <span className="text-sm font-semibold tracking-widest uppercase opacity-70">
+                  Page {page} of {totalPages}
+                </span>
+                <button
+                  onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
+                  disabled={page === totalPages || loading}
+                  className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
+                >
+                  <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
               </div>
             )}
