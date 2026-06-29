@@ -10,6 +10,7 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(1);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     async function fetchArticles() {
@@ -52,14 +53,21 @@ export default function Blog() {
                   className="group flex flex-col bg-background-alt rounded-xl md:rounded-3xl overflow-hidden border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 cursor-pointer"
                 >
                   <div className="relative aspect-square md:aspect-video w-full overflow-hidden">
+                    {!loadedImages[article.id] && (
+                      <div className="absolute inset-0 bg-primary/10 animate-pulse z-0"></div>
+                    )}
                     <Image
                       src={article.image_url}
                       alt={article.title}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      unoptimized
+                      className={`object-cover transition-all duration-1000 group-hover:scale-110 z-10 ${
+                        loadedImages[article.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
+                      }`}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      loading="lazy"
+                      onLoad={() => setLoadedImages((prev) => ({ ...prev, [article.id]: true }))}
                     />
-                    <div className="absolute top-2 left-2 md:top-3 md:left-3 px-2 md:px-3 py-0.5 md:py-1 bg-background/90 backdrop-blur-md rounded-full text-[8px] md:text-xs font-bold uppercase tracking-wider text-primary">
+                    <div className="absolute top-2 left-2 md:top-3 md:left-3 z-20 px-2 md:px-3 py-0.5 md:py-1 bg-background/90 backdrop-blur-md rounded-full text-[8px] md:text-xs font-bold uppercase tracking-wider text-primary">
                       {article.category}
                     </div>
                   </div>

@@ -60,11 +60,11 @@ export default function Portfolio() {
         </div>
 
         <div className="w-full flex flex-col items-center justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl mx-auto">
+          <div className="grid grid-cols-3 gap-2 md:gap-4 lg:gap-8 w-full max-w-6xl mx-auto px-1 md:px-0">
             {paginatedImages.map((img, idx) => (
               <div 
                 key={img.id} 
-                className="group/item relative w-full aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer border border-primary/10 hover:border-primary/40 transition-all hover:shadow-2xl"
+                className="group/item relative w-full aspect-[4/5] overflow-hidden rounded-lg md:rounded-2xl bg-background-alt cursor-pointer border border-primary/10 hover:border-primary/40 transition-all hover:shadow-2xl"
                 onClick={() => setSelectedImage(img)}
               >
                 {!loadedImages[img.id] && (
@@ -77,15 +77,15 @@ export default function Portfolio() {
                   className={`object-cover transition-transform duration-1000 group-hover/item:scale-110 z-10 ${
                     loadedImages[img.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
                   }`}
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 33vw, 33vw"
                   loading="lazy"
                   onLoad={() => setLoadedImages((prev) => ({ ...prev, [img.id]: true }))}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 z-20">
-                  <span className="text-primary font-serif text-xl font-bold translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500">
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-2 md:p-6 z-20">
+                  <span className="text-primary font-serif text-[10px] sm:text-xs md:text-xl font-bold translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500 leading-tight">
                     {img.category || 'Tattoo Art'}
                   </span>
-                  <span className="text-foreground/70 text-sm mt-1 translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500 delay-75">
+                  <span className="text-foreground/70 text-[8px] sm:text-[10px] md:text-sm mt-0.5 md:mt-1 translate-y-4 group-hover/item:translate-y-0 transform transition-transform duration-500 delay-75 leading-tight hidden sm:block md:block line-clamp-2">
                     {img.alt_text || 'Custom design'}
                   </span>
                 </div>
