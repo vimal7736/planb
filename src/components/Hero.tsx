@@ -25,8 +25,8 @@ const HERO_IMAGES: GalleryImage[] = [
   { id: "16", src: "/real/IMG_2542.PNG", category: "Fine Line", date: "2024-06-21" },
 ];
 
-export default function Hero({ 
-  heading, 
+export default function Hero({
+  heading,
   subheading,
   btnPrimary,
   btnSecondary,
@@ -34,8 +34,8 @@ export default function Hero({
   circularText,
   portfolioImages = [],
   premiumServices = []
-}: { 
-  heading?: string, 
+}: {
+  heading?: string,
   subheading?: string,
   btnPrimary?: string,
   btnSecondary?: string,
@@ -170,17 +170,17 @@ export default function Hero({
         </div>
 
         {/* Foreground Content Layout */}
-        <div 
+        <div
           className="w-full h-full px-4 md:px-12 xl:px-24 flex flex-col md:flex-row items-center justify-between transition-all duration-1000 relative z-10"
           style={{ gap: animationProgress > 0.8 ? "0.5rem" : "2rem" }}
         >
 
           {/* Left Column - Dynamic Content (Text -> Loader -> Reveal) */}
-          <div 
+          <div
             className="flex-1 w-full relative flex flex-col transition-all duration-1000 md:min-h-[400px] md:justify-center pb-4"
-            style={{ 
+            style={{
               minHeight: animationProgress > 0.8 ? "200px" : "400px",
-              justifyContent: animationProgress > 0.8 ? "flex-end" : "center" 
+              justifyContent: animationProgress > 0.8 ? "flex-end" : "center"
             }}
           >
 
@@ -244,7 +244,7 @@ export default function Hero({
                   <span className="relative z-10">{btnPrimary || "Request Appointment"}</span>
                   <div className="absolute inset-0 bg-background/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
                 </a>
-                
+
                 {/* 2. View Portfolio (Minimal Outline) */}
                 <a
                   href="#portfolio"
@@ -252,7 +252,7 @@ export default function Hero({
                 >
                   {btnSecondary || "View Portfolio"}
                 </a>
-                
+
                 {/* 3. Enter Studio (Action with Arrow) */}
                 <button
                   onClick={() => animateSequence('forward')}
@@ -358,16 +358,16 @@ export default function Hero({
           </div>
 
           {/* Right Column - Image Carousel OR Premium Cards */}
-          <div 
+          <div
             className="flex-1 w-full h-full relative flex flex-col transition-all duration-1000 md:py-16 pt-2"
-            style={{ 
-              paddingTop: animationProgress > 0.8 ? "0px" : "2.5rem", 
+            style={{
+              paddingTop: animationProgress > 0.8 ? "0px" : "2.5rem",
               paddingBottom: animationProgress > 0.8 ? "0px" : "2.5rem",
               justifyContent: animationProgress > 0.8 ? "flex-start" : "center"
             }}
           >
             {/* State 1: Image Carousel (Hidden when animationProgress > 0.8) */}
-            <div 
+            <div
               className="absolute inset-x-0 w-full relative aspect-[4/5] md:aspect-square rounded-[3rem] overflow-hidden shadow-2xl border-4 border-background-alt group transition-all duration-1000"
               style={{
                 opacity: animationProgress > 0.8 ? 0 : 1,
@@ -395,7 +395,7 @@ export default function Hero({
             </div>
 
             {/* State 2: Premium Cards (Visible when animationProgress > 0.8) */}
-            <div 
+            <div
               className="absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-0"
               style={{
                 opacity: animationProgress > 0.8 ? 1 : 0,
@@ -407,36 +407,36 @@ export default function Hero({
               <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center gap-2 md:gap-6 w-full max-w-[400px] md:max-w-none px-2 md:px-4 pb-12 md:pb-0">
                 {premiumServices && premiumServices.length > 0 ? (
                   premiumServices.map(service => (
-                    <PremiumCard 
+                    <PremiumCard
                       key={service.id}
-                      title={service.title} 
-                      description={service.description} 
-                      price={service.price || ""} 
-                      imageSrc={service.image_url || HERO_IMAGES[4].src} 
-                      badge={service.badge || undefined} 
+                      title={service.title}
+                      description={service.description}
+                      price={service.price || ""}
+                      imageSrc={service.image_url || HERO_IMAGES[4].src}
+                      badge={service.badge || undefined}
                     />
                   ))
                 ) : (
                   <>
-                    <PremiumCard 
-                      title="Realism" 
-                      description="Hyper-realistic portraits & nature" 
-                      price="From $200" 
-                      imageSrc={HERO_IMAGES[4].src} 
-                      badge="PRO" 
+                    <PremiumCard
+                      title="Realism"
+                      description="Hyper-realistic portraits & nature"
+                      price="From $200"
+                      imageSrc={HERO_IMAGES[4].src}
+                      badge="PRO"
                     />
-                    <PremiumCard 
-                      title="Fine Line" 
-                      description="Delicate, minimalist precision" 
-                      price="From $150" 
-                      imageSrc={HERO_IMAGES[5].src} 
-                      badge="NEW" 
+                    <PremiumCard
+                      title="Fine Line"
+                      description="Delicate, minimalist precision"
+                      price="From $150"
+                      imageSrc={HERO_IMAGES[5].src}
+                      badge="NEW"
                     />
-                    <PremiumCard 
-                      title="Geometric" 
-                      description="Perfect symmetry & bold patterns" 
-                      price="From $180" 
-                      imageSrc={HERO_IMAGES[6].src} 
+                    <PremiumCard
+                      title="Geometric"
+                      description="Perfect symmetry & bold patterns"
+                      price="From $180"
+                      imageSrc={HERO_IMAGES[6].src}
                     />
                   </>
                 )}
