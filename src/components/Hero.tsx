@@ -396,7 +396,7 @@ export default function Hero({
 
             {/* State 2: Premium Cards (Visible when animationProgress > 0.8) */}
             <div
-              className="absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-0"
+              className=" absolute inset-0 flex flex-col items-center justify-start md:justify-center transition-all duration-1000 z-30 pt-0"
               style={{
                 opacity: animationProgress > 0.8 ? 1 : 0,
                 transform: `scale(${animationProgress > 0.8 ? 1 : 1.05})`,
