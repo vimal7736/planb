@@ -56,9 +56,7 @@ export default function MobileNav() {
           htmlFor="rd-2" 
           className="mobile-nav-label" 
           onClick={(e) => {
-            triggerLoader(() => {
-              document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
-            });
+            document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
           }} 
           aria-label="Portfolio"
         >

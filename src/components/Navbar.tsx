@@ -93,9 +93,7 @@ export default function Navbar() {
             className="text-foreground hover:text-primary transition-colors cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
-              triggerLoader(() => {
-                document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
-              });
+              document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
             }}
           >
             Services
@@ -105,9 +103,7 @@ export default function Navbar() {
             className="text-foreground hover:text-primary transition-colors cursor-pointer"
             onClick={(e) => {
               e.preventDefault();
-              triggerLoader(() => {
-                document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
-              });
+              document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
             }}
           >
             Portfolio

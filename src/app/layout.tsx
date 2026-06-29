@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${outfit.variable} ${exo.variable} ${stardos.variable} h-full antialiased`}
+      className={`${playfair.variable} ${outfit.variable} ${exo.variable} ${stardos.variable} h-full antialiased scroll-smooth`}
       suppressHydrationWarning
     >
       <head>
