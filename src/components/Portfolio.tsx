@@ -6,15 +6,15 @@ import { useState, useEffect } from "react";
 import { supabase, PortfolioImage } from "@/lib/supabase";
 
 const FALLBACK_IMAGES: PortfolioImage[] = [
-  { id: "1", image_url: "/real/IMG_2087.PNG", category: "Fine Line", created_at: "2024-05-15" },
-  { id: "2", image_url: "/real/IMG_2088.JPG.jpeg", category: "Realism", created_at: "2024-04-20" },
-  { id: "3", image_url: "/real/IMG_2089.PNG", category: "Geometric", created_at: "2024-06-01" },
-  { id: "4", image_url: "/real/IMG_2517.PNG", category: "Minimalist", created_at: "2024-03-10" },
-  { id: "5", image_url: "/real/IMG_2528.PNG", category: "Fine Line", created_at: "2024-05-28" },
-  { id: "6", image_url: "/real/IMG_2529.PNG", category: "Geometric", created_at: "2024-02-14" },
-  { id: "7", image_url: "/real/IMG_2530.PNG", category: "Realism", created_at: "2024-01-05" },
-  { id: "8", image_url: "/real/IMG_2531.PNG", category: "Minimalist", created_at: "2024-06-12" },
-  { id: "9", image_url: "/real/IMG_2532.PNG", category: "Fine Line", created_at: "2023-11-20" }
+  { id: "1", image_url: "/real/IMG_2087.PNG", category: "Fine Line", created_at: "2024-05-15", alt_text: null },
+  { id: "2", image_url: "/real/IMG_2088.JPG.jpeg", category: "Realism", created_at: "2024-04-20", alt_text: null },
+  { id: "3", image_url: "/real/IMG_2089.PNG", category: "Geometric", created_at: "2024-06-01", alt_text: null },
+  { id: "4", image_url: "/real/IMG_2517.PNG", category: "Minimalist", created_at: "2024-03-10", alt_text: null },
+  { id: "5", image_url: "/real/IMG_2528.PNG", category: "Fine Line", created_at: "2024-05-28", alt_text: null },
+  { id: "6", image_url: "/real/IMG_2529.PNG", category: "Geometric", created_at: "2024-02-14", alt_text: null },
+  { id: "7", image_url: "/real/IMG_2530.PNG", category: "Realism", created_at: "2024-01-05", alt_text: null },
+  { id: "8", image_url: "/real/IMG_2531.PNG", category: "Minimalist", created_at: "2024-06-12", alt_text: null },
+  { id: "9", image_url: "/real/IMG_2532.PNG", category: "Fine Line", created_at: "2023-11-20", alt_text: null }
 ];
 
 export default function Portfolio() {
