@@ -134,7 +134,7 @@ export default function Hero({
   const revealPointerEvents = animationProgress > 0.8 ? "auto" : "none";
 
   return (
-    <section id="hero" className="relative h-screen bg-background overflow-hidden flex items-center pt-14">
+    <section id="hero" className="relative min-h-[100dvh] bg-background overflow-hidden flex items-center pt-24 pb-12 md:pt-14 md:pb-0">
       <div className="w-full h-full relative">
 
         {/* Abstract Background Element */}

@@ -8,17 +8,8 @@ const DEFAULT_ICON = (
 );
 
 export default function Services() {
-  const [isFanned, setIsFanned] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize(); // Set initial value
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     async function fetchServices() {
@@ -43,87 +34,41 @@ export default function Services() {
             <h2 className="text-3xl md:text-5xl font-black font-serif tracking-tight">Services & Specialties</h2>
             <p className="max-w-2xl mx-auto opacity-70 leading-relaxed font-light">
               Elevating the craft of tattooing through precision, artistry, and a dedication to minimalist aesthetics. 
-              <span className="md:hidden block mt-2 text-primary font-bold">Tap below to view styles.</span>
             </p>
           </div>
 
-          <div 
-            className="w-full flex flex-col items-center justify-center relative"
-            onMouseEnter={() => setIsFanned(true)}
-            onMouseLeave={() => setIsFanned(false)}
-          >
-            <div 
-              className={`relative flex justify-center items-center cursor-pointer group transition-all duration-500 w-full ${isFanned ? 'h-[450px] md:h-[700px]' : 'h-[380px] md:h-[400px]'}`}
-              onClick={() => setIsFanned(!isFanned)}
-            >
-              {paginatedServices.map((service, idx) => {
-                // Calculate a simulated rotation based on index since we removed it from DB
-                const total = paginatedServices.length;
-                const centerIdx = Math.floor(total / 2);
-                const rotation = (idx - centerIdx) * 10;
-                
-                let translateX = 0;
-                let translateY = 0;
-                
-                if (isFanned) {
-                  if (isMobile) {
-                    translateX = (idx - centerIdx) * 60;
-                    translateY = Math.abs(idx - centerIdx) * 40;
-                  } else {
-                    if (idx < 3) {
-                      // Top row (up to 3 items)
-                      const row1Count = Math.min(total, 3);
-                      const row1Center = (row1Count - 1) / 2;
-                      translateX = (idx - row1Center) * 260;
-                      translateY = total > 3 ? -150 : 0; // Only move up if there's a second row
-                    } else {
-                      // Bottom row (up to 3 items)
-                      const row2Count = total - 3;
-                      const row2Center = (row2Count - 1) / 2;
-                      translateX = (idx - 3 - row2Center) * 260;
-                      translateY = 150;
-                    }
-                  }
-                }
-                
-                return (
-                  <div 
-                    key={service.id || idx}
-                    className="absolute w-40 h-56 md:w-56 md:h-72 bg-background border border-primary/20 shadow-2xl flex flex-col justify-start pt-6 md:pt-8 items-center text-center transition-all duration-700 ease-out rounded-2xl backdrop-blur-md px-3 md:px-4"
-                    style={{
-                      transform: isFanned 
-                        ? `rotate(0deg) translate(${translateX}px, ${translateY}px)`
-                        : `rotate(${rotation}deg)`,
-                      zIndex: isFanned ? 10 + idx : 10 - Math.abs(idx - centerIdx),
-                      transitionDelay: isFanned ? `${idx * 100}ms` : `${(total - 1 - Math.abs(idx - centerIdx)) * 30}ms`
-                    }}
-                  >
-                    <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
-                      {DEFAULT_ICON}
-                    </div>
-                    
-                    <p className="text-xs md:text-sm opacity-70 leading-relaxed max-w-[90%] mx-auto">
-                      {service.description}
-                    </p>
-                    
-                    {/* Title Banner */}
-                    <div className="absolute bottom-0 w-full h-12 bg-primary/10 flex justify-center items-center rounded-b-2xl border-t border-primary/10">
-                      <span className="font-serif font-bold text-sm md:text-base tracking-wide text-primary">
-                        {service.title}
-                      </span>
-                    </div>
+          <div className="w-full flex flex-col items-center justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-5xl mx-auto">
+              {paginatedServices.map((service, idx) => (
+                <div 
+                  key={service.id || idx}
+                  className="relative w-full h-56 md:h-72 bg-background border border-primary/20 shadow-xl flex flex-col justify-start pt-6 md:pt-8 items-center text-center rounded-2xl backdrop-blur-md px-3 md:px-4 group"
+                >
+                  <div className="text-primary mb-4 transition-transform duration-300 group-hover:scale-110">
+                    {DEFAULT_ICON}
                   </div>
-                );
-              })}
+                  
+                  <p className="text-xs md:text-sm opacity-70 leading-relaxed max-w-[90%] mx-auto">
+                    {service.description}
+                  </p>
+                  
+                  {/* Title Banner */}
+                  <div className="absolute bottom-0 w-full h-12 bg-primary/10 flex justify-center items-center rounded-b-2xl border-t border-primary/10">
+                    <span className="font-serif font-bold text-sm md:text-base tracking-wide text-primary">
+                      {service.title}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Pagination Controls */}
-            {totalPages > 1 && isFanned && (
+            {totalPages > 1 && (
               <div 
-                className="flex justify-center items-center gap-6 md:mt-4 animate-in fade-in duration-500 pb-8 z-50"
+                className="flex justify-center items-center gap-6 mt-12 animate-in fade-in duration-500 pb-8 z-50"
               >
                 <button
-                  onClick={(e) => { e.stopPropagation(); setCurrentPage(p => Math.max(1, p - 1)); }}
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
                 >
@@ -133,7 +78,7 @@ export default function Services() {
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
-                  onClick={(e) => { e.stopPropagation(); setCurrentPage(p => Math.min(totalPages, p + 1)); }}
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                   className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
                 >
