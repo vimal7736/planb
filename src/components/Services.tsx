@@ -26,6 +26,15 @@ export default function Services() {
     currentPage * ITEMS_PER_PAGE
   );
 
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    const element = document.getElementById('services');
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="services" className="py-12 md:py-24 relative overflow-hidden">
       <div className="w-full px-4 md:px-12 xl:px-24 relative z-10">
@@ -68,7 +77,7 @@ export default function Services() {
                 className="flex justify-center items-center gap-6 mt-12 animate-in fade-in duration-500 pb-8 z-50"
               >
                 <button
-                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
                   className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
                 >
@@ -78,7 +87,7 @@ export default function Services() {
                   Page {currentPage} of {totalPages}
                 </span>
                 <button
-                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
                   className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
                 >

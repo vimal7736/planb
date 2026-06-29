@@ -33,26 +33,21 @@ export default function Portfolio() {
     fetchPortfolio();
   }, []);
 
-  const displayImages = images; // We'll show all images in the infinite scroll
+  const ITEMS_PER_PAGE = 9;
+  const totalPages = Math.max(1, Math.ceil(images.length / ITEMS_PER_PAGE));
+  const paginatedImages = images.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
-  // Duplicate images for infinite scroll effect
-  const marqueeImages = [...displayImages, ...displayImages, ...displayImages];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('opacity-100', 'translate-y-0');
-          entry.target.classList.remove('opacity-0', 'translate-y-12');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-    
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-    
-    return () => observer.disconnect();
-  }, [currentPage]);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    const element = document.getElementById('portfolio');
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section id="portfolio" className="py-16 bg-background-alt/30">
@@ -64,18 +59,12 @@ export default function Portfolio() {
           </p>
         </div>
 
-        {/* Infinite Scroll Marquee Container */}
-        <div className="relative w-full overflow-hidden mt-8 -mx-4 px-4 md:-mx-12 md:px-12 xl:-mx-24 xl:px-24">
-          
-          {/* Fading Edges */}
-          <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-          <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
-
-          <div className="flex w-max animate-infinite-scroll hover:[animation-play-state:paused] gap-4 md:gap-8 py-4">
-            {marqueeImages.map((img, idx) => (
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 w-full max-w-6xl mx-auto">
+            {paginatedImages.map((img, idx) => (
               <div 
-                key={`${img.id}-${idx}`} 
-                className="group/item relative w-[250px] md:w-[350px] aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer shrink-0 border border-primary/10 hover:border-primary/40 transition-all hover:shadow-2xl"
+                key={img.id} 
+                className="group/item relative w-full aspect-[4/5] overflow-hidden rounded-xl md:rounded-2xl bg-background-alt cursor-pointer border border-primary/10 hover:border-primary/40 transition-all hover:shadow-2xl"
                 onClick={() => setSelectedImage(img)}
               >
                 {!loadedImages[img.id] && (
@@ -88,7 +77,7 @@ export default function Portfolio() {
                   className={`object-cover transition-transform duration-1000 group-hover/item:scale-110 z-10 ${
                     loadedImages[img.id] ? "opacity-100 blur-0" : "opacity-0 blur-md scale-105"
                   }`}
-                  sizes="(max-width: 768px) 250px, 350px"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   loading="lazy"
                   onLoad={() => setLoadedImages((prev) => ({ ...prev, [img.id]: true }))}
                 />
@@ -108,6 +97,31 @@ export default function Portfolio() {
           {!loading && images.length === 0 && (
             <div className="py-12 text-center opacity-60">
               No images in the portfolio yet. Add some from the Admin Dashboard!
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div 
+              className="flex justify-center items-center gap-6 mt-12 animate-in fade-in duration-500 pb-8 z-50"
+            >
+              <button
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
+              >
+                <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
+              </button>
+              <span className="text-sm font-semibold tracking-widest uppercase opacity-70">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className="p-2 border border-primary/30 rounded-full text-primary hover:bg-primary/10 disabled:opacity-30 transition-colors cursor-pointer relative z-50"
+              >
+                <svg className="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+              </button>
             </div>
           )}
         </div>
