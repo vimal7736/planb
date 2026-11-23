@@ -8,21 +8,21 @@ import { useEffect, useState } from "react";
 
 const HERO_IMAGES: GalleryImage[] = [
   { id: "1", src: "/real/IMG_2087.PNG", category: "Fine Line", date: "2024-05-15" },
-  { id: "2", src: "/real/IMG_2088.JPG.jpeg", category: "Realism", date: "2024-04-20" },
-  { id: "3", src: "/real/IMG_2089.PNG", category: "Geometric", date: "2024-06-01" },
-  { id: "4", src: "/real/IMG_2517.PNG", category: "Minimalist", date: "2024-03-10" },
-  { id: "5", src: "/real/IMG_2528.PNG", category: "Fine Line", date: "2024-05-28" },
-  { id: "6", src: "/real/IMG_2529.PNG", category: "Geometric", date: "2024-02-14" },
-  { id: "7", src: "/real/IMG_2530.PNG", category: "Realism", date: "2024-01-05" },
-  { id: "8", src: "/real/IMG_2531.PNG", category: "Minimalist", date: "2024-06-12" },
+  { id: "2", src: "/real/IMG_2088.JPG.jpeg", category: "Character", date: "2024-04-20" },
+  { id: "3", src: "/real/IMG_2089.PNG", category: "Character", date: "2024-06-01" },
+  { id: "4", src: "/real/IMG_2517.PNG", category: "Character", date: "2024-03-10" },
+  { id: "5", src: "/real/IMG_2528.PNG", category: "Geometric", date: "2024-05-28" },
+  { id: "6", src: "/real/IMG_2529.PNG", category: "Minimalist", date: "2024-02-14" },
+  { id: "7", src: "/real/IMG_2530.PNG", category: "Character", date: "2024-01-05" },
+  { id: "8", src: "/real/IMG_2531.PNG", category: "Geometric", date: "2024-06-12" },
   { id: "9", src: "/real/IMG_2532.PNG", category: "Fine Line", date: "2023-11-20" },
-  { id: "10", src: "/real/IMG_2533.PNG", category: "Geometric", date: "2023-12-15" },
-  { id: "11", src: "/real/IMG_2534.PNG", category: "Realism", date: "2024-05-05" },
-  { id: "12", src: "/real/IMG_2535.PNG", category: "Minimalist", date: "2024-06-15" },
+  { id: "10", src: "/real/IMG_2533.PNG", category: "Character", date: "2023-12-15" },
+  { id: "11", src: "/real/IMG_2534.PNG", category: "Character", date: "2024-05-05" },
+  { id: "12", src: "/real/IMG_2535.PNG", category: "Geometric", date: "2024-06-15" },
   { id: "13", src: "/real/IMG_2537.PNG", category: "Fine Line", date: "2024-06-18" },
-  { id: "14", src: "/real/IMG_2540.PNG", category: "Geometric", date: "2024-06-19" },
-  { id: "15", src: "/real/IMG_2541.PNG", category: "Realism", date: "2024-06-20" },
-  { id: "16", src: "/real/IMG_2542.PNG", category: "Fine Line", date: "2024-06-21" },
+  { id: "14", src: "/real/IMG_2540.PNG", category: "Realism", date: "2024-06-19" },
+  { id: "15", src: "/real/IMG_2541.PNG", category: "Fine Line", date: "2024-06-20" },
+  { id: "16", src: "/real/IMG_2542.PNG", category: "Minimalist", date: "2024-06-21" },
 ];
 
 export default function Hero({
@@ -184,28 +184,6 @@ export default function Hero({
             }}
           >
 
-            {/* Go Back Button (Appears at the end of the sequence) */}
-            <div
-              className="absolute -top-32 md:-top-48 left-0 z-50"
-              style={{
-                opacity: Math.max(0, (animationProgress - 0.9) * 10),
-                pointerEvents: animationProgress > 0.9 ? "auto" : "none",
-                transition: "opacity 0.3s ease-out"
-              }}
-            >
-              <button
-                onClick={() => animateSequence('backward')}
-                className="flex items-center gap-3 px-2 py-2 text-foreground/70 hover:text-primary transition-all group relative"
-              >
-                <div className="w-10 h-10 rounded-full border border-foreground/20 flex items-center justify-center group-hover:border-primary transition-colors duration-300">
-                  <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                </div>
-                <span className="text-xl md:text-3xl font-bold font-stardos tracking-widest mt-1">GO BACK</span>
-              </button>
-            </div>
-
             {/* 1. Initial Text Content */}
             <div
               className="absolute inset-0 flex flex-col justify-center space-y-6 md:space-y-8 text-center md:text-left"
@@ -311,13 +289,24 @@ export default function Hero({
 
             {/* 3. WOW Factor Reveal */}
             <div
-              className="absolute inset-0 flex flex-col justify-center space-y-6 md:space-y-8 text-center md:text-left"
+              className="absolute inset-0 flex flex-col justify-center space-y-5 md:space-y-6 text-center md:text-left"
               style={{
                 opacity: revealOpacity,
                 transform: `translateY(${revealY}px)`,
                 pointerEvents: revealPointerEvents as any,
               }}
             >
+              <div className="flex justify-center md:justify-start">
+                <button
+                  onClick={() => animateSequence('backward')}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-background/90 backdrop-blur-md border border-primary/30 text-foreground hover:bg-primary hover:text-background hover:border-primary shadow-sm transition-all group"
+                >
+                  <svg className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  <span className="text-[11px] md:text-xs font-bold font-sans uppercase tracking-widest">Go Back</span>
+                </button>
+              </div>
               <h2 className="text-5xl md:text-7xl lg:text-8xl font-black font-serif tracking-tighter text-foreground leading-[0.9]">
                 ENTER <br />
                 PLAN B <br />
@@ -421,22 +410,22 @@ export default function Hero({
                     <PremiumCard
                       title="Realism"
                       description="Hyper-realistic portraits & nature"
-                      price="From $200"
-                      imageSrc={HERO_IMAGES[4].src}
+                      price="From ₹4,000"
+                      imageSrc="/real/IMG_2540.PNG"
                       badge="PRO"
                     />
                     <PremiumCard
                       title="Fine Line"
                       description="Delicate, minimalist precision"
-                      price="From $150"
-                      imageSrc={HERO_IMAGES[5].src}
+                      price="From ₹1,500"
+                      imageSrc="/real/IMG_2532.PNG"
                       badge="NEW"
                     />
                     <PremiumCard
                       title="Geometric"
                       description="Perfect symmetry & bold patterns"
-                      price="From $180"
-                      imageSrc={HERO_IMAGES[6].src}
+                      price="From ₹3,000"
+                      imageSrc="/real/IMG_2528.PNG"
                     />
                   </>
                 )}

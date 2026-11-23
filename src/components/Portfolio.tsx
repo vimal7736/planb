@@ -6,15 +6,22 @@ import { useState, useEffect } from "react";
 import { supabase, PortfolioImage } from "@/lib/supabase";
 
 const FALLBACK_IMAGES: PortfolioImage[] = [
-  { id: "1", image_url: "/real/IMG_2087.PNG", category: "Fine Line", created_at: "2024-05-15", alt_text: null },
-  { id: "2", image_url: "/real/IMG_2088.JPG.jpeg", category: "Realism", created_at: "2024-04-20", alt_text: null },
-  { id: "3", image_url: "/real/IMG_2089.PNG", category: "Geometric", created_at: "2024-06-01", alt_text: null },
-  { id: "4", image_url: "/real/IMG_2517.PNG", category: "Minimalist", created_at: "2024-03-10", alt_text: null },
-  { id: "5", image_url: "/real/IMG_2528.PNG", category: "Fine Line", created_at: "2024-05-28", alt_text: null },
-  { id: "6", image_url: "/real/IMG_2529.PNG", category: "Geometric", created_at: "2024-02-14", alt_text: null },
-  { id: "7", image_url: "/real/IMG_2530.PNG", category: "Realism", created_at: "2024-01-05", alt_text: null },
-  { id: "8", image_url: "/real/IMG_2531.PNG", category: "Minimalist", created_at: "2024-06-12", alt_text: null },
-  { id: "9", image_url: "/real/IMG_2532.PNG", category: "Fine Line", created_at: "2023-11-20", alt_text: null }
+  { id: "1", image_url: "/real/IMG_2087.PNG", category: "Fine Line", created_at: "2024-05-15", alt_text: "Ornamental sunburst chest tattoo" },
+  { id: "2", image_url: "/real/IMG_2088.JPG.jpeg", category: "Character", created_at: "2024-04-20", alt_text: "Egyptian Bastet cat with Ankh" },
+  { id: "3", image_url: "/real/IMG_2089.PNG", category: "Character", created_at: "2024-06-01", alt_text: "Japanese dragon arm panel" },
+  { id: "4", image_url: "/real/IMG_2517.PNG", category: "Character", created_at: "2024-03-10", alt_text: "Hooded winged angel guardian" },
+  { id: "5", image_url: "/real/IMG_2528.PNG", category: "Geometric", created_at: "2024-05-28", alt_text: "Sacred geometry blackwork sleeve" },
+  { id: "6", image_url: "/real/IMG_2529.PNG", category: "Minimalist", created_at: "2024-02-14", alt_text: "Floating cloud-head minimalist piece" },
+  { id: "7", image_url: "/real/IMG_2530.PNG", category: "Character", created_at: "2024-01-05", alt_text: "Surreal melting skull & spider" },
+  { id: "8", image_url: "/real/IMG_2531.PNG", category: "Geometric", created_at: "2024-06-12", alt_text: "Geometric triangle, clock & mountains" },
+  { id: "9", image_url: "/real/IMG_2532.PNG", category: "Fine Line", created_at: "2023-11-20", alt_text: "Delicate fine-line dragonfly" },
+  { id: "10", image_url: "/real/IMG_2533.PNG", category: "Character", created_at: "2023-12-15", alt_text: "Samurai warrior & oni mask" },
+  { id: "11", image_url: "/real/IMG_2534.PNG", category: "Character", created_at: "2024-05-05", alt_text: "Lord Shiva portrait with Om" },
+  { id: "12", image_url: "/real/IMG_2535.PNG", category: "Geometric", created_at: "2024-06-15", alt_text: "Mandala & sacred geometry sleeve" },
+  { id: "13", image_url: "/real/IMG_2537.PNG", category: "Fine Line", created_at: "2024-06-18", alt_text: "Sak Yant sacred script back piece" },
+  { id: "14", image_url: "/real/IMG_2540.PNG", category: "Realism", created_at: "2024-06-19", alt_text: "Buddha & pagoda realism back piece" },
+  { id: "15", image_url: "/real/IMG_2541.PNG", category: "Fine Line", created_at: "2024-06-20", alt_text: "Crescent moon & moth dotwork" },
+  { id: "16", image_url: "/real/IMG_2542.PNG", category: "Minimalist", created_at: "2024-06-21", alt_text: "Masterpiece cyber-sigilism lettering" }
 ];
 
 export default function Portfolio() {

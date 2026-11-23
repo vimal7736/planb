@@ -56,7 +56,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           
           <Link href="/admin" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            Bookings
+            Calendar
+          </Link>
+
+          <Link href="/admin/bookings" className="flex items-center gap-3 px-3 py-1.5 text-xs text-[#4A5D33] hover:bg-[#E2E6CC] hover:text-[#2C331F] rounded-md transition-all font-semibold">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+            All Bookings
           </Link>
 
           <div className="text-[9px] font-bold text-[#6B7A50]/70 uppercase tracking-widest mb-1.5 mt-5 px-3">Content (CMS)</div>

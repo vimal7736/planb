@@ -108,10 +108,20 @@ export default function CinematicGallery({ isOpen, onClose, images: fallbackImag
     }, 10);
   };
 
-  const categories = ["All", "Fine Line", "Geometric", "Realism", "Minimalist"];
+  const categories = ["All", "Fine Line", "Geometric", "Realism", "Minimalist", "Character"];
 
-  // Use fallback if database returns absolutely nothing on the very first query
-  const filteredAndSortedImages = (images.length === 0 && selectedCategory === "All" && totalPages === 1) ? fallbackImages : images;
+  // Use fallback if database returns absolutely nothing, and still support category/sort filtering
+  const filteredAndSortedImages = useMemo(() => {
+    if (images.length > 0) return images;
+    const filtered = selectedCategory === "All"
+      ? fallbackImages
+      : fallbackImages.filter((img) => img.category === selectedCategory);
+    return [...filtered].sort((a, b) =>
+      sortOrder === "newest"
+        ? new Date(b.date).getTime() - new Date(a.date).getTime()
+        : new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }, [images, fallbackImages, selectedCategory, sortOrder]);
 
   return (
     <AnimatePresence>
