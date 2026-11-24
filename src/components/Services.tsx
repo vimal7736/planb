@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase, Service } from "@/lib/supabase";
+import LuminousServiceCard from "./LuminousServiceCard";
 
 const DEFAULT_ICON = (
   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -10,6 +11,8 @@ const DEFAULT_ICON = (
 export default function Services() {
   const [services, setServices] = useState<Service[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeMobileIdx, setActiveMobileIdx] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchServices() {
@@ -33,18 +36,75 @@ export default function Services() {
     }, 10);
   };
 
+  const handleMobileScroll = () => {
+    const el = carouselRef.current;
+    if (!el || services.length === 0) return;
+    const cardStep = el.scrollWidth / services.length;
+    const idx = Math.round(el.scrollLeft / cardStep);
+    setActiveMobileIdx(Math.max(0, Math.min(services.length - 1, idx)));
+  };
+
+  const scrollToMobileCard = (idx: number) => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const target = el.children[idx] as HTMLElement | undefined;
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+    setActiveMobileIdx(idx);
+  };
+
   return (
     <section id="services" className="py-12 md:py-24 relative overflow-hidden scroll-mt-16 md:scroll-mt-24">
       <div className="w-full px-4 md:px-12 xl:px-24 relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10 md:mb-24 space-y-4">
+          <div className="text-center mb-8 md:mb-24 space-y-3 md:space-y-4">
             <h2 className="text-3xl md:text-5xl font-black font-serif tracking-tight">Services & Specialties</h2>
-            <p className="max-w-2xl mx-auto opacity-70 leading-relaxed font-light">
+            <p className="max-w-2xl mx-auto text-sm md:text-base opacity-70 leading-relaxed font-light">
               Elevating the craft of tattooing through precision, artistry, and a dedication to minimalist aesthetics. 
             </p>
           </div>
 
-          <div className="w-full flex flex-col items-center justify-center">
+          {/* Mobile Compact Luminous Carousel */}
+          <div className="md:hidden w-full">
+            <div
+              ref={carouselRef}
+              onScroll={handleMobileScroll}
+              className="flex gap-7 overflow-x-auto snap-x snap-mandatory py-6 px-[calc(50%-118px)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {services.map((service, idx) => (
+                <div key={service.id || idx} className="snap-center shrink-0">
+                  <LuminousServiceCard service={service} defaultLit={idx === 0} />
+                </div>
+              ))}
+            </div>
+
+            {services.length > 1 && (
+              <div className="flex flex-col items-center gap-2.5 mt-2">
+                <div className="flex items-center justify-center gap-2">
+                  {services.map((service, idx) => (
+                    <button
+                      key={service.id || idx}
+                      type="button"
+                      aria-label={`View ${service.title}`}
+                      onClick={() => scrollToMobileCard(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                        activeMobileIdx === idx
+                          ? "w-6 bg-primary"
+                          : "w-1.5 bg-primary/30"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.2em] opacity-45">
+                  Swipe · Tap switch to illuminate
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Grid & Pagination */}
+          <div className="hidden md:flex w-full flex-col items-center justify-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full max-w-5xl mx-auto">
               {paginatedServices.map((service, idx) => (
                 <div 

@@ -177,9 +177,9 @@ export default function Hero({
 
           {/* Left Column - Dynamic Content (Text -> Loader -> Reveal) */}
           <div
-            className="flex-1 w-full relative flex flex-col transition-all duration-1000 md:min-h-[400px] md:justify-center pb-4"
+            className="flex-1 w-full relative z-40 flex flex-col transition-all duration-1000 md:min-h-[400px] md:justify-center pb-4"
             style={{
-              minHeight: animationProgress > 0.8 ? "200px" : "400px",
+              minHeight: animationProgress > 0.8 ? "280px" : "400px",
               justifyContent: animationProgress > 0.8 ? "flex-end" : "center"
             }}
           >
