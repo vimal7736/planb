@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Outfit, Exo, Stardos_Stencil } from "next/font/google";
 import "./globals.css";
 import { LoaderProvider } from "@/components/LoaderProvider";
+import WhatsAppFab from "@/components/WhatsAppFab";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -62,6 +63,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className="min-h-full flex flex-col font-sans bg-noise">
         <LoaderProvider>
           {children}
+          <WhatsAppFab />
         </LoaderProvider>
       </body>
     </html>
