@@ -230,17 +230,6 @@ export default function Hero({
                 >
                   {btnSecondary || "View Portfolio"}
                 </a>
-
-                {/* 3. Enter Studio (Action with Arrow) */}
-                <button
-                  onClick={() => animateSequence('forward')}
-                  className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full border border-transparent bg-background-alt/50 text-primary hover:bg-primary hover:text-background transition-all backdrop-blur-sm font-bold font-sans uppercase tracking-[0.15em] text-xs"
-                >
-                  <span>{btnTertiary || "Enter Studio"}</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </button>
               </div>
             </div>
 
