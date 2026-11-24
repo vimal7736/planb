@@ -51,20 +51,41 @@ export default function Hero({
     date: img.created_at
   })) : HERO_IMAGES;
 
+  const visibleImages = displayImages.slice(0, 11);
+
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFastPhase, setIsFastPhase] = useState(true);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
 
   const [animationProgress, setAnimationProgress] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
-  // Carousel loop
+  // Speed-ramp carousel loop: fast burst -> sudden slow hold -> repeat
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
+    const count = visibleImages.length;
+    if (count <= 1) return;
+
+    // Pattern of delays (ms): 4 rapid flashes, then a sudden slow cinematic hold
+    const RHYTHM_STEPS = [180, 180, 180, 220, 2800];
+    let stepIndex = 0;
+    let timerId: ReturnType<typeof setTimeout>;
+
+    const scheduleNext = () => {
+      const delay = RHYTHM_STEPS[stepIndex % RHYTHM_STEPS.length];
+      const fast = delay < 500;
+      setIsFastPhase(fast);
+
+      timerId = setTimeout(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % count);
+        stepIndex += 1;
+        scheduleNext();
+      }, delay);
+    };
+
+    scheduleNext();
+    return () => clearTimeout(timerId);
+  }, [visibleImages.length]);
 
   // Button Triggered Animation (Forward & Backward)
   const animateSequence = (direction: 'forward' | 'backward') => {
@@ -353,7 +374,7 @@ export default function Hero({
                 pointerEvents: animationProgress > 0.8 ? "none" : "auto",
               }}
             >
-              {displayImages.slice(0, 11).map((img, index) => (
+              {visibleImages.map((img, index) => (
                 <Image
                   key={img.id}
                   src={img.src}
@@ -362,7 +383,9 @@ export default function Hero({
                   priority={index < 2}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   unoptimized
-                  className={`absolute inset-0 object-cover transition-all duration-[2000ms] ease-in-out ${index === currentImageIndex && loadedImages[index]
+                  className={`absolute inset-0 object-cover transition-all ease-out ${
+                    isFastPhase ? "duration-150" : "duration-[1400ms]"
+                  } ${index === currentImageIndex && loadedImages[index]
                     ? "opacity-100 scale-100 blur-0 z-10"
                     : "opacity-0 scale-105 blur-sm z-0"
                     }`}
